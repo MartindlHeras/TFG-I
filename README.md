@@ -14,8 +14,8 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 | pablo.cerro@uam.es
 
 #### ToDo
- - [ ] Añadir ficheros restantes de Windows
- - [ ] Ejecución completa primes.c
+ - [x] Añadir ficheros restantes de Windows
+ - [x] Ejecución completa primes.c
  - [ ] Integrar otra aplicación
  - [ ] RNA simple
  - [ ] Prototipo clasificador
