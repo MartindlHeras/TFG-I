@@ -7,7 +7,6 @@
 
 if [ $# -lt 2 ]
 then
-    echo script.sh [c_file] [test_file]
     echo "Wrong input command:"
     echo "./mutate.sh <fileName> <testsFile>"
 else

@@ -14,12 +14,11 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 | pablo.cerro@uam.es
 
 #### ToDo
- - [x] Añadir ficheros restantes de Windows
- - [x] Ejecución completa primes.c
- - [x] Integrar otra aplicación
- - [ ] Entender y apuntar los parámetros de mpirun (Malone) y los ficheros stand.ini
- - [ ] RNA simple
- - [ ] Prototipo clasificador
+ - [ ] Ver cómo guardar los weights de la ANN (extender a reconocer dígitos) y convertirlo en un programa ejecutable.
+ - [ ] Incluir un par de aplicaciones más: una sencilla y alguna más compleja.
+ - [ ] Demo ANN: selecciona una aplicación externa y vemos su integración en java y como funciona. ??
+ - [ ] Intentar saber que cantidad de modelos con los que es necesario entrenar el modelo inicial. ??
+ - [ ] Prototipo muy inicial en java de la herramienta del TFG: Sería una capa superior a Malone, que lo gestiona, permite ejecutarlo, obtener los datos y realizar la predicción con la red neuronal. Extender el script.
 
 #### Links útiles
  - [RNAs en Mllib](https://medium.com/@Sushil_Kumar/artificial-neural-network-with-spark-mllib-9474570239d8)

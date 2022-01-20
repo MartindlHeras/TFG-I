@@ -74,8 +74,24 @@ else
     echo "######################### EXECUTING IN MALONE... ##########################"
     # mpirun -n 2 ./$MALONE_HOME/malone -e $MALONE_HOME/TFG/"${1%.*}"_stand.ini -a 4
     cd $MALONE_HOME
-    mpirun -n 2 ./malone -e TFG/"${1%.*}"_stand.ini -a 4
+    mpirun -n 2 ./malone -e TFG/"${1%.*}"_stand.ini -a 1 #> output1.txt
+    mpirun -n 2 ./malone -e TFG/"${1%.*}"_stand.ini -a 2 #> output2.txt
+    mpirun -n 2 ./malone -e TFG/"${1%.*}"_stand.ini -a 3 #> output3.txt
+    mpirun -n 2 ./malone -e TFG/"${1%.*}"_stand.ini -a 4 #> output4.txt
+    mpirun -n 2 ./malone -e TFG/"${1%.*}"_stand.ini -a 5 #> output5.txt
     cd -
+    # mkdir outputs
+    # mv $MALONE_HOME/output* outputs/
+    # cd outputs
+
+    # grep -e 'Total time: ' -e 'Total mutants: ' -e 'Total tests: ' $(ls -td $MALONE_HOME/Results/*/ | head -1)malone_overview.txt
 
     echo "################################## DONE! ##################################"
 fi
+
+# IFS=': '
+# read -a strarr <<< $(grep -e "Total time: " -e "Total tests: " $(ls -td $MALONE_HOME/Results/*/ | head -1)malone_overview.txt)
+
+# echo "First element: ${strarr[0]}"
+# echo "Second element: ${strarr[1]}"
+# echo "Third element: ${strarr[2]}"
