@@ -1,4 +1,4 @@
-public class NeuralNetwork {
+public class NeuralNetwork{
  	
 	// Notes:
 	// The first thing I did is to make the code a bit more dynamic, there was a clear problem with the backpropagation part,
@@ -19,7 +19,11 @@ public class NeuralNetwork {
 
 	// Variable Declaration
    
-    // Layers
+    /**
+	 * 
+	 */
+
+	// Layers
     static Layer[] layers; // My changes
     
     // Training data
@@ -35,10 +39,11 @@ public class NeuralNetwork {
     	// Notes: One thing you didn't code right is that neurons in a layer
     	// need to have number of weights corresponding to the previous layer
     	// which means that the first hidden layer need to have 2 weights per neuron and 6 neurons
-    	layers = new Layer[3];
+    	layers = new Layer[4];
     	layers[0] = null; // Input Layer 0,2
-    	layers[1] = new Layer(2,6); // Hidden Layer 2,6
-    	layers[2] = new Layer(6,1); // Output Layer 6,1
+    	layers[1] = new Layer(784,16); // Hidden Layer 2,6
+    	layers[2] = new Layer(16,16); // Output Layer 6,1
+    	layers[3] = new Layer(16,10); // Output Layer 6,1
         
     	// Create the training data
     	CreateTrainingData();

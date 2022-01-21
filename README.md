@@ -25,3 +25,6 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
  - [Programas en C en un archivo](https://github.com/nothings/single_file_libs)
  - [Github de ANN en Java](https://github.com/yacineMahdid/artificial-intelligence-and-machine-learning/tree/master/Neural%20Network%20from%20Scratch%20in%20Java/src)
  - [Vídeo del GitHub de encima](https://www.youtube.com/watch?v=1DIu7D98dGo)
+ - [MNIST Database](http://yann.lecun.com/exdb/mnist/)
+ - [DL4j Example](https://towardsdatascience.com/part-5-training-the-network-to-read-handwritten-digits-c2288f1a2de3)
+ - [Digit recognizer](https://itnext.io/building-a-handwritten-digit-recognizer-in-java-4eca4014eb2f)
