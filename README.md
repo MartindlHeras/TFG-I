@@ -14,7 +14,7 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 | pablo.cerro@uam.es
 
 #### ToDo
- - [ ] Ver cómo guardar los weights de la ANN (extender a reconocer dígitos) y convertirlo en un programa ejecutable.
+ - [x] Ver cómo guardar los weights de la ANN (extender a reconocer dígitos) y convertirlo en un programa ejecutable.
  - [ ] Incluir un par de aplicaciones más: una sencilla y alguna más compleja.
  - [ ] Demo ANN: selecciona una aplicación externa y vemos su integración en java y como funciona. ??
  - [ ] Intentar saber que cantidad de modelos con los que es necesario entrenar el modelo inicial. ??
@@ -28,3 +28,5 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
  - [MNIST Database](http://yann.lecun.com/exdb/mnist/)
  - [DL4j Example](https://towardsdatascience.com/part-5-training-the-network-to-read-handwritten-digits-c2288f1a2de3)
  - [Digit recognizer](https://itnext.io/building-a-handwritten-digit-recognizer-in-java-4eca4014eb2f)
+ - [Guía de DL4J de verdad que funciona](https://www.rcp-vision.com/build-your-first-neural-network-with-eclipse-deeplearning4j/)
+ - [Serialization Java](https://www.tutorialspoint.com/java/java_serialization.htm)
