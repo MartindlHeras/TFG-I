@@ -14,15 +14,24 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 | pablo.cerro@uam.es
 
 #### ToDo
- - [x] Ver cómo guardar los weights de la ANN (extender a reconocer dígitos) y convertirlo en un programa ejecutable.
- - [x] Incluir un par de aplicaciones más: una sencilla y alguna más compleja.
- - [x] stand.ini file encontrar la manera de averiguar cuántos mutantes hay de verdad y cambiar la variable TotalMutants
- - [x] Demo ANN: selecciona una aplicación externa y vemos su integración en java y como funciona.
- - [ ] Mutantes empiezan por el 1 y no por el 0
- - [ ] Programas más complejos para ejecutar?
- - [ ] Prototipo muy inicial en java de la herramienta del TFG: Sería una capa superior a Malone, que lo gestiona, permite ejecutarlo, obtener los datos y realizar la predicción con la red neuronal. Extender el script.
- - [ ] Intentar saber que cantidad de modelos con los que es necesario entrenar el modelo inicial. ??
- - [ ] Rehacer la función de lectura de datos de la ANN para los de ahora
+ - [ ] Aplicación más compleja.
+ - [ ] Parsear los datos, desde la carpeta de datos, utilizando la app en java.
+ - [ ] Selección inputs/outputs para la ANN.
+ - [ ] Test inicial de clasificación con un programa muy similar. 
+ - [ ] Compartir repositorio de aplicaciones, formato:
+    - Fuentes.txt (mejor en el README)
+        - Web: descripción de donde sacar aplicación
+    - Carpeta (nombre app)
+        - aplicacion.c
+        - testsuite
+        - mutantes.zip
+        - descripción.txt
+        - apporiginal.zip
+ - [ ] Autotest?
+
+#### Mid term
+ - [ ] Intentar saber qué cantidad de modelos con los que es necesario entrenar el modelo inicial. 
+ - [ ] Prototipo muy inicial en java de la herramienta del TFG: Sería una capa superior a Malone, que lo gestiona, permite ejecutarlo, obtener los datos y realizar la predicción con la red neuronal.
 
 #### Ideas
  - La salida de la ANN va directamente al mpirun

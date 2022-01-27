@@ -88,5 +88,9 @@ else
     mkdir outputs
     mv $MALONE_HOME/output* outputs/
 
+    echo 'TotalTests: '$(sed -n "$=" tests/tests_"${1%.*}".txt)'
+    TotalMutants: '$(ls $MUTOMVO_HOME/project_"${1%.*}"/mutants/ | wc -l)'
+    '$1' lines: '$(sed -n "$=" $1)'' > outputs/"${1%.*}"_output.txt
+
     echo "################################## DONE! ##################################"
 fi
