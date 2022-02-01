@@ -15,9 +15,11 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 
 #### ToDo
  - [ ] Aplicación más compleja.
- - [ ] Parsear los datos, desde la carpeta de datos, utilizando la app en java.
- - [ ] Selección inputs/outputs para la ANN.
- - [ ] Test inicial de clasificación con un programa muy similar. 
+ - [x] Parsear los datos, desde la carpeta de datos, utilizando la app en java.
+ - [x] Selección inputs/outputs para la ANN.
+ - [x] Test inicial de clasificación con un programa muy similar. 
+ - [ ] Integrar ANN y NAOS.
+ - [ ] Cerrar tema Inputs/Outputs (en la reunión)
  - [ ] Compartir repositorio de aplicaciones, formato:
     - Fuentes.txt (mejor en el README)
         - Web: descripción de donde sacar aplicación
