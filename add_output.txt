@@ -1,3 +1,0 @@
-TotalTests: 100
-TotalMutants: 12
-add.c lines: 13

@@ -7,7 +7,7 @@ int main(int argc, char * argv[])
 		printf("You have forgot to specify two numbers.");
 		exit(1);
 	}
-	sum= atoi(argv[1])+atoi(argv[2]);
+	sum = atoi(argv[1]) + atoi(argv[2]);
 	printf("%d\n", sum);
-
+	return 0;
 }
