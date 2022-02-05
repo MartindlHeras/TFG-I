@@ -4,6 +4,6 @@
  - output: 
      - print: error message or message assessing if the number is prime
      - return: 0
- - #mutants: 67 (error hay que ejecutar otra vez)
+ - #mutants: 68
  - #lines: 30
  - test format: primes \<number\>

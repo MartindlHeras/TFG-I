@@ -14,10 +14,9 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 | pablo.cerro@uam.es
 
 #### ToDo
- - [ ] Aplicación más compleja.
  - [ ] Integrar ANN y NAOS.
- - [ ] Cambiar mutate.sh para que solo acepte el nombre de la app (fácil pero me da pereza)
- - [ ] Cerrar tema Inputs/Outputs (en la reunión)
+ - [x] Aplicación más compleja.
+ - [x] Cambiar mutate.sh para que solo acepte el nombre de la app (fácil pero me da pereza)
  - [x] Parsear los datos, desde la carpeta de datos, utilizando la app en java.
  - [x] Selección inputs/outputs para la ANN.
  - [x] Test inicial de clasificación con un programa muy similar. 
@@ -42,3 +41,7 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
  - No cambiar la carpeta para ejecutar tanto Malone como Mutomvo
  - Subcarpeta en outputs con el nombre del programa
  - Meter en el fichero de los datos de ejecución desde el principio todas las métricas que pueda (puedo meter tanto mutantes como tests como lineas del .c)
+
+#### Preguntas
+ 1. Tema Inputs/Outputs cerrarlo (params del ordenador?)
+ 2. De apps/ aplicacion.zip y testSuite
