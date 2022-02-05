@@ -1,4 +1,4 @@
-primes.c
+## primes.c
  - overview: C program to check if a number is prime
  - input: one integer
  - output: 
