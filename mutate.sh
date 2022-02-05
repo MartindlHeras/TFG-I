@@ -11,15 +11,18 @@ then
     echo "./mutate.sh <fileName>"
 else
     echo "####################### SENDING FILES TO MUTOMVO... #######################"
-    cp $1 $MUTOMVO_HOME/apps
+    cp apps/"${1%.*}"/$1 $MUTOMVO_HOME/apps
     mkdir $MUTOMVO_HOME/project_"${1%.*}"
-    cp tests/tests_"${1%.*}".txt $MUTOMVO_HOME/project_"${1%.*}"
+    cp apps/"${1%.*}"/tests_"${1%.*}".txt $MUTOMVO_HOME/project_"${1%.*}"
 
     echo "########################### RUNNING MUTOMVO... ############################"
     # ./$MUTOMVO_HOME/run_scaled java -jar $MUTOMVO_HOME/dist/mutomvo.jar
     cd $MUTOMVO_HOME
     ./run_scaled java -jar dist/mutomvo.jar
     cd -
+
+    echo "########################### ZIPPING MUTANTS ... ###########################"
+    zip -r apps/"${1%.*}"/mutants.zip $MUTOMVO_HOME/project_"${1%.*}"/mutants/*
 
     echo "####################### CREATING stand.ini FILE... ########################"
     echo '[general]
@@ -87,10 +90,6 @@ else
     cd -
     # mkdir outputs
     # mv $MALONE_HOME/output* outputs/
-
-    # echo 'TotalTests: '$(sed -n "$=" tests/tests_"${1%.*}".txt)'
-    # TotalMutants: '$(ls $MUTOMVO_HOME/project_"${1%.*}"/mutants/ | wc -l)'
-    # '$1' lines: '$(sed -n "$=" $1)'' > outputs/"${1%.*}"_output.txt
 
     echo "################################## DONE! ##################################"
 fi

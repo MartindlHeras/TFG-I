@@ -15,12 +15,13 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 
 #### ToDo
  - [ ] Aplicación más compleja.
+ - [ ] Integrar ANN y NAOS.
+ - [ ] Cambiar mutate.sh para que solo acepte el nombre de la app (fácil pero me da pereza)
+ - [ ] Cerrar tema Inputs/Outputs (en la reunión)
  - [x] Parsear los datos, desde la carpeta de datos, utilizando la app en java.
  - [x] Selección inputs/outputs para la ANN.
  - [x] Test inicial de clasificación con un programa muy similar. 
- - [ ] Integrar ANN y NAOS.
- - [ ] Cerrar tema Inputs/Outputs (en la reunión)
- - [ ] Compartir repositorio de aplicaciones, formato:
+ - [x] Compartir repositorio de aplicaciones, formato:
     - Fuentes.txt (mejor en el README)
         - Web: descripción de donde sacar aplicación
     - Carpeta (nombre app)
@@ -41,17 +42,3 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
  - No cambiar la carpeta para ejecutar tanto Malone como Mutomvo
  - Subcarpeta en outputs con el nombre del programa
  - Meter en el fichero de los datos de ejecución desde el principio todas las métricas que pueda (puedo meter tanto mutantes como tests como lineas del .c)
-
-#### C Programs
- - [Programas en C en un archivo](https://github.com/nothings/single_file_libs)
- - [Single file C](https://www.programiz.com/c-programming/examples)
- - [Compresión MIT](https://people.csail.mit.edu/smcc/projects/single-file-programs/)
-
-#### ANNs
- - [Github de ANN en Java](https://github.com/yacineMahdid/artificial-intelligence-and-machine-learning/tree/master/Neural%20Network%20from%20Scratch%20in%20Java/src)
- - [Vídeo del GitHub de encima](https://www.youtube.com/watch?v=1DIu7D98dGo)
- - [MNIST Database](http://yann.lecun.com/exdb/mnist/)
- - [DL4j Example](https://towardsdatascience.com/part-5-training-the-network-to-read-handwritten-digits-c2288f1a2de3)
- - [Digit recognizer](https://itnext.io/building-a-handwritten-digit-recognizer-in-java-4eca4014eb2f)
- - [Guía de DL4J de verdad que funciona](https://www.rcp-vision.com/build-your-first-neural-network-with-eclipse-deeplearning4j/)
- - [Serialization Java](https://www.tutorialspoint.com/java/java_serialization.htm)

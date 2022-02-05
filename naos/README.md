@@ -11,7 +11,7 @@
         2. Recorre Results entrando en las carpetas que tengan los mismos parámetros comunes
         3. Guarda el menor tiempo y algoritmo correspondiente (en un futuro optimizaciones)
         4. Devuelve parámetros comunes + algoritmo (+ optimizaciones)
- - NNAS
+ - NAOS
     - entrenar:
         1. Hace lo mismo que el main de FileParser
         2. Pasa los parámetros a la ANN para entrenarla en ese ejemplo (más complejo de lo que parece)
@@ -32,6 +32,7 @@
  - #algoritmo
  - #optimizaciones
  - #lineas del .c (**falta**)
+ - #especificaciones del ordenador? (*muy problemático a la hora de entrenar*)
  - *tiempo total (tiempos totales?) (solo para entrenar)*
  - *tiempo de cada mutante? (solo para entrenar)*
  - *tamaño del fichero?*
@@ -41,3 +42,13 @@ Al final los inputs tienen que ser datos que se sepan antes de ejecutar porque e
 #### Outputs (5-11)
  - Algoritmo (1-5)
  - Optimizaciones (0-1 en cada una de las 6 optimizaciones)
+
+
+#### ANNs
+ - [Github de ANN en Java](https://github.com/yacineMahdid/artificial-intelligence-and-machine-learning/tree/master/Neural%20Network%20from%20Scratch%20in%20Java/src)
+ - [Vídeo del GitHub de encima](https://www.youtube.com/watch?v=1DIu7D98dGo)
+ - [MNIST Database](http://yann.lecun.com/exdb/mnist/)
+ - [DL4j Example](https://towardsdatascience.com/part-5-training-the-network-to-read-handwritten-digits-c2288f1a2de3)
+ - [Digit recognizer](https://itnext.io/building-a-handwritten-digit-recognizer-in-java-4eca4014eb2f)
+ - [Guía de DL4J de verdad que funciona](https://www.rcp-vision.com/build-your-first-neural-network-with-eclipse-deeplearning4j/)
+ - [Serialization Java](https://www.tutorialspoint.com/java/java_serialization.htm)
