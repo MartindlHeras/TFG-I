@@ -1,4 +1,6 @@
 ## Applications
+http: integrada pero no funciona
+massive: ok
 
 #### Overview
  - Fuentes.txt (mejor en el README)
