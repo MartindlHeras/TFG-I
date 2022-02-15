@@ -16,22 +16,10 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 ---
 
 ### ToDo
- - [ ] Integrar ANN y NAOS.
- - [x] Aplicación más compleja.
- - [x] Cambiar mutate.sh para que solo acepte el nombre de la app (fácil pero me da pereza)
- - [x] Parsear los datos, desde la carpeta de datos, utilizando la app en java.
- - [x] Selección inputs/outputs para la ANN.
- - [x] Test inicial de clasificación con un programa muy similar. 
- - [x] Compartir repositorio de aplicaciones, formato:
-    - Fuentes.txt (mejor en el README)
-        - Web: descripción de donde sacar aplicación
-    - Carpeta (nombre app)
-        - aplicacion.c
-        - testsuite
-        - mutantes.zip
-        - descripción.txt
-        - apporiginal.zip
- - [ ] Autotest?
+ - [ ] Adaptar más aplicaciones
+ - [ ] Insertar los parámetros a la ANN.
+ - [ ] Generar automáticamente los entornos ini (Malone/Environments/autotest) 
+ - [ ] Ver #mutante y test que falla
 
 ### Mid term
  - [ ] Intentar saber qué cantidad de modelos con los que es necesario entrenar el modelo inicial. 

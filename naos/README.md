@@ -15,6 +15,16 @@
     - entrenar:
         1. Hace lo mismo que el main de FileParser
         2. Pasa los parámetros a la ANN para entrenarla en ese ejemplo (más complejo de lo que parece)
+            - Ver cómo funcionan los datasets
+            - Ver cómo funciona la función fit/evaluate
+            - Tipo de archivo del modelo cuando lo guardas
+            - Guardar/cargar modelos
+            - Decidir un diseño del dataset
+            - Normalizar inputs?
+            - Cómo evaluar outputs (cómo pasar las labels y cómo sacarlas)
+            - Rehacer el iterator
+            - Ver cómo se ejecuta solo un ejemplo para la predicción
+            - UI de DL4J?
     - predecir:
         - Repurpose test/ANN
         1. Llamar a la red neuronal con los parámetros de entrada
@@ -33,6 +43,7 @@
  - #optimizaciones
  - #lineas del .c (**falta**)
  - #especificaciones del ordenador? (*muy problemático a la hora de entrenar*)
+ - max num de cores
  - *tiempo total (tiempos totales?) (solo para entrenar)*
  - *tiempo de cada mutante? (solo para entrenar)*
  - *tamaño del fichero?*
@@ -52,3 +63,6 @@ Al final los inputs tienen que ser datos que se sepan antes de ejecutar porque e
  - [Digit recognizer](https://itnext.io/building-a-handwritten-digit-recognizer-in-java-4eca4014eb2f)
  - [Guía de DL4J de verdad que funciona](https://www.rcp-vision.com/build-your-first-neural-network-with-eclipse-deeplearning4j/)
  - [Serialization Java](https://www.tutorialspoint.com/java/java_serialization.htm)
+ - [Visualization UI](https://deeplearning4j.konduit.ai/deeplearning4j/how-to-guides/tuning-and-training/visualization)
+ - [Saving and loading](https://deeplearning4j.konduit.ai/deeplearning4j/reference/saving-and-loading-models)
+
