@@ -1,65 +1,65 @@
 package naos.workbench;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import org.datavec.image.loader.NativeImageLoader;
+import java.util.Scanner;
+
 import org.deeplearning4j.datasets.iterator.impl.ListDataSetIterator;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.evaluation.classification.Evaluation;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
-import org.nd4j.linalg.dataset.api.preprocessor.ImagePreProcessingScaler;
 import org.nd4j.linalg.factory.Nd4j;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 
 public class NetworkTester {
 	
-	//The absolute path of the folder containing MNIST training and testing sub-folders
-	private static final String MNIST_DATASET_ROOT_FOLDER = "/home/martin/Documents/mnist_png/";
-	//Height and width in pixel of each image
-	private static final int HEIGHT = 28;
-	private static final int WIDTH = 28;
-	//The total number of images into the training and testing set
-	private static final int N_SAMPLES_TESTING = 10000;
-	//The number of possible outcomes of the network for each input, 
-	//correspondent to the 0..9 digit classification
-	private static final int N_OUTCOMES = 10;
+	private static final String DATASET_ROOT_FOLDER = "/home/martin/Documents/TFG_I/naos/";
+	private static final int N_SAMPLES_TESTING = 5;
+	private static final int N_INPUTS = 3;
+	private static final int N_OUTCOMES = 5;
 	
+	// IMPORTANTE ADAPTAR AL PATH DE TRAINING Y TESTS QUE NO HE HECHO
 	private static DataSetIterator getDataSetIterator(String folderPath, int nSamples) throws IOException {
-		File folder = new File(folderPath);
-		File[] digitFolders = folder.listFiles();
-		NativeImageLoader nil = new NativeImageLoader(HEIGHT, WIDTH);
-		ImagePreProcessingScaler scaler = new ImagePreProcessingScaler(0,1);
 
-		INDArray input = Nd4j.create(new int[]{ nSamples, HEIGHT*WIDTH });
+		INDArray input = Nd4j.create(new int[]{ nSamples, N_INPUTS });
 		INDArray output = Nd4j.create(new int[]{ nSamples, N_OUTCOMES });
+		List<Integer> mutants = new ArrayList<Integer>();
+		List<Integer> tests = new ArrayList<Integer>();
+		List<Integer> cores = new ArrayList<Integer>();
+		List<Integer> algorithms = new ArrayList<Integer>();
+		List<Integer> optimizations = new ArrayList<Integer>();
 		
 		int n = 0;
-		//scan all 0..9 digit sub-folders
-		for (File digitFolder : digitFolders) {
-		  //take note of the digit in processing, since it will be used as a label
-		  int labelDigit = Integer.parseInt(digitFolder.getName());
-		  //scan all the images of the digit in processing
-		  File[] imageFiles = digitFolder.listFiles();
-		  for (File imageFile : imageFiles) {
-		    //read the image as a one dimensional array of 0..255 values
-		    INDArray img = nil.asRowVector(imageFile);
-		    //scale the 0..255 integer values into a 0..1 floating range
-		    //Note that the transform() method returns void, since it updates its input array
-		    scaler.transform(img);
-		    //copy the img array into the input matrix, in the next row
-		    input.putRow( n, img );
-		    //in the same row of the output matrix, fire (set to 1 value) the column correspondent to the label
-		    output.put( n, labelDigit, 1.0 );
-		    //row counter increment
-		    n++;
-		  }
+		try {
+			Scanner myReader = new Scanner(new File("db.txt"));
+			while (myReader.hasNextLine()) {
+				String line = myReader.nextLine();
+				String[] data = line.split(", ");
+				mutants.add(Integer.parseInt(data[1].substring(1)));
+				tests.add(Integer.parseInt(data[2].substring(1)));
+				cores.add(Integer.parseInt(data[3].substring(1)));
+				algorithms.add(Integer.parseInt(data[4].substring(1)));
+				optimizations.add(Integer.parseInt(data[5]));
+				n++;
+			}
+			myReader.close();
+	    } catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+	    }
+		// No estoy seguro de si normalizar los datos antes de meterlos, problematico a la hora de entrenar solo con un modelo
+//		int maxMutants = Collections.max(mutants);
+//		int maxTests = Collections.max(tests);
+//		int maxCores = Collections.max(cores);
+		for (int i = 0; i < n; i++) {
+//			input.putRow(i, Nd4j.createFromArray( new int[]{mutants.get(i)/maxMutants, tests.get(i)/maxTests, cores.get(i)/maxCores} ));
+			input.putRow(i, Nd4j.createFromArray( new int[]{mutants.get(i), tests.get(i), cores.get(i)} ));
+			output.putRow(i, crearSalida(algorithms.get(i), optimizations.get(i)));
 		}
 		
 		//Join input and output matrixes into a data-set
@@ -69,12 +69,23 @@ public class NetworkTester {
 		//Shuffle its content randomly
 		Collections.shuffle( listDataSet, new Random(System.currentTimeMillis()) );
 		//Set a batch size
-		int batchSize = 10;
+		int batchSize = 1;
 		//Build and return a data-set iterator that the network can use
 		DataSetIterator dsi = new ListDataSetIterator<DataSet>( listDataSet, batchSize );
 		return dsi;
 	}
 	
+	private static INDArray crearSalida(Integer alg, Integer opt) {
+		int[] out = new int[N_OUTCOMES];
+		out[alg-1] = 1;
+		// Hasta encontrar la manera de anadir las optimizaciones se queda esto comentado
+//		String tmp = Integer.toString(opt);
+//		for (int i = 0; i < tmp.length(); i++) {
+//		    out[i+5] = tmp.charAt(i) - '0'; // Convertir a int cada caracter
+//		}
+		return Nd4j.createFromArray(out);
+	}
+
 	public static void main(String[] args) {
 		long t0 = System.currentTimeMillis();
 		DataSetIterator testDsi = null;
@@ -83,22 +94,15 @@ public class NetworkTester {
 		
 		MultiLayerNetwork model = null;
 		try {
-		   FileInputStream fileIn = new FileInputStream("/home/martin/Documents/TFG_I/naos/model.ser");
-		   ObjectInputStream in = new ObjectInputStream(fileIn);
-		   model = (MultiLayerNetwork) in.readObject();
-		   in.close();
-		   fileIn.close();
-		} catch (IOException i) {
-		   i.printStackTrace();
-		   return;
-		} catch (ClassNotFoundException c) {
-		   System.out.println("MultiLayerNetwork class not found");
-		   c.printStackTrace();
-		   return;
+			model = MultiLayerNetwork.load(new File("model.dl4j"), true);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("MultiLayerNetwork class not found");
+			return;
 		}
 		
 		try {
-			testDsi = getDataSetIterator( MNIST_DATASET_ROOT_FOLDER + "testing", N_SAMPLES_TESTING);
+			testDsi = getDataSetIterator(DATASET_ROOT_FOLDER + "testing", N_SAMPLES_TESTING);
 		} catch (Exception e) { System.out.println(e); }
 		
 		System.out.println("Evaluate model....");

@@ -17,13 +17,18 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 
 ### ToDo
  - [ ] Adaptar más aplicaciones
- - [ ] Insertar los parámetros a la ANN.
- - [ ] Generar automáticamente los entornos ini (Malone/Environments/autotest) 
+ - [x] Insertar los parámetros a la ANN.
+ - [ ] Generar automáticamente los entornos ini (Malone/Environments/autotest)
  - [ ] Ver #mutante y test que falla
+ - [ ] Ajustar parámetros y funciones de la ANN
+ - [ ] Argumentos de entrada de NAOS
+ - [ ] Parámetros ANN
+ - [ ] Dividir database en training y testing
+ - [ ] Ver si es necesario normalizar los datos de la ANN
 
 ### Mid term
  - [ ] Intentar saber qué cantidad de modelos con los que es necesario entrenar el modelo inicial. 
- - [ ] Prototipo muy inicial en java de la herramienta del TFG: Sería una capa superior a Malone, que lo gestiona, permite ejecutarlo, obtener los datos y realizar la predicción con la red neuronal.
+ - [x] Prototipo muy inicial en java de la herramienta del TFG: Sería una capa superior a Malone, que lo gestiona, permite ejecutarlo, obtener los datos y realizar la predicción con la red neuronal.
 
 ---
 
@@ -33,7 +38,9 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
  - No cambiar la carpeta para ejecutar tanto Malone como Mutomvo
  - Subcarpeta en outputs con el nombre del programa
  - Meter en el fichero de los datos de ejecución desde el principio todas las métricas que pueda (puedo meter tanto mutantes como tests como lineas del .c)
+ - UI para la ANN
 
 ### Preguntas
- 1. Tema Inputs/Outputs cerrarlo (params del ordenador?)
- 2. De apps/ aplicacion.zip y testSuite
+ 1. Tema Inputs cerrarlo (ya lo hablamos pero no lo apunté y se me olvidó)
+ 2. Tema desde dónde empieza la aplicación a mirar las cosas (ya lo hablamos pero no lo apunté y se me olvidó)
+ 3. Problema: no puedo poner la salida como 01000 para el algoritmo y luego 010010 para las optimizaciones (si multiplicas salen 320 salidas distintas)

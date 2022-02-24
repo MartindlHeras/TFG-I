@@ -14,17 +14,7 @@
  - NAOS
     - entrenar:
         1. Hace lo mismo que el main de FileParser
-        2. Pasa los parámetros a la ANN para entrenarla en ese ejemplo (más complejo de lo que parece)
-            - Ver cómo funcionan los datasets
-            - Ver cómo funciona la función fit/evaluate
-            - Tipo de archivo del modelo cuando lo guardas
-            - Guardar/cargar modelos
-            - Decidir un diseño del dataset
-            - Normalizar inputs?
-            - Cómo evaluar outputs (cómo pasar las labels y cómo sacarlas)
-            - Rehacer el iterator
-            - Ver cómo se ejecuta solo un ejemplo para la predicción
-            - UI de DL4J?
+        2. Pasa los parámetros a la ANN para entrenarla en ese ejemplo
     - predecir:
         - Repurpose test/ANN
         1. Llamar a la red neuronal con los parámetros de entrada
@@ -33,6 +23,16 @@
         1. Input: fichero .c + mutantes + tests? (sacar #lineas?)
         2. Opción -t: entrenar
         3. Opción -p: predecir
+
+#### Learn
+ - Training epochs
+ - Hidden layers
+    - Number
+    - Size
+ - Activation function (RELU/SOFTMAX)
+ - Loss function (negative log likelihood)
+ - Weight initialization (Xavier)
+ - Batch sizes
 
 #### Inputs (6)
  - Nombre del programa (no cuenta)
@@ -65,4 +65,3 @@ Al final los inputs tienen que ser datos que se sepan antes de ejecutar porque e
  - [Serialization Java](https://www.tutorialspoint.com/java/java_serialization.htm)
  - [Visualization UI](https://deeplearning4j.konduit.ai/deeplearning4j/how-to-guides/tuning-and-training/visualization)
  - [Saving and loading](https://deeplearning4j.konduit.ai/deeplearning4j/reference/saving-and-loading-models)
-
