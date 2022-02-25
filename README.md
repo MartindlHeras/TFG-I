@@ -18,13 +18,12 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 ### ToDo
  - [ ] Adaptar más aplicaciones
  - [x] Insertar los parámetros a la ANN.
- - [ ] Generar automáticamente los entornos ini (Malone/Environments/autotest)
- - [ ] Ver #mutante y test que falla
- - [ ] Ajustar parámetros y funciones de la ANN
+ - [x] Generar automáticamente los entornos ini (Malone/Environments/autotest)
+ - [x] Ajustar parámetros y funciones de la ANN
  - [ ] Argumentos de entrada de NAOS
- - [ ] Parámetros ANN
+ - [x] Parámetros ANN
  - [ ] Dividir database en training y testing
- - [ ] Ver si es necesario normalizar los datos de la ANN
+ - [x] Ver si es necesario normalizar los datos de la ANN
 
 ### Mid term
  - [ ] Intentar saber qué cantidad de modelos con los que es necesario entrenar el modelo inicial. 

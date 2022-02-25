@@ -95,4 +95,14 @@ else
     # mv $MALONE_HOME/output* outputs/
 
     echo "################################## DONE! ##################################"
+
+    echo "########################## CREATING AUTOTESTS... ##########################"
+    # cd naos/src/main/java/naos/workbench
+    # javac Autotest.java
+    # java Autotest.java $1 $(ls $MUTOMVO_HOME/project_$1/mutants/ | wc -l) $(sed -n "$=" apps/$1/tests_$1.txt)
+    # cd -
+
+    echo "################################## DONE! ##################################"
+
+    # mpirun -n 2 ./malone -e autotest/test_autotest_add_stand.ini -a 4
 fi
