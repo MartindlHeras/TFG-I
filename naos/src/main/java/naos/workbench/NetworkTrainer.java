@@ -2,7 +2,6 @@ package naos.workbench;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -28,21 +27,16 @@ import org.nd4j.linalg.lossfunctions.LossFunctions.LossFunction;
 public class NetworkTrainer {
 	
 	private static final String DATASET_ROOT_FOLDER = "/home/martin/Documents/TFG_I/naos/";
-	private static final int N_SAMPLES_TRAINING = 5;
-	private static final int N_SAMPLES_TESTING = 5;
-	private static final int N_INPUTS = 3;
-	private static final int N_OUTCOMES = 5;
+	private static final int N_SAMPLES_TRAINING = 9;
+	private static final int N_SAMPLES_TESTING = 9;
+	private static final int N_INPUTS = 7;
+	private static final int N_OUTCOMES = 320;
 	
 	// IMPORTANTE ADAPTAR AL PATH DE TRAINING Y TESTS QUE NO HE HECHO
 	private static DataSetIterator getDataSetIterator(String folderPath, int nSamples) throws IOException {
 
 		INDArray input = Nd4j.create(new int[]{ nSamples, N_INPUTS });
 		INDArray output = Nd4j.create(new int[]{ nSamples, N_OUTCOMES });
-		List<Integer> mutants = new ArrayList<Integer>();
-		List<Integer> tests = new ArrayList<Integer>();
-		List<Integer> cores = new ArrayList<Integer>();
-		List<Integer> algorithms = new ArrayList<Integer>();
-		List<Integer> optimizations = new ArrayList<Integer>();
 		
 		int n = 0;
 		try {
@@ -50,12 +44,19 @@ public class NetworkTrainer {
 			while (myReader.hasNextLine()) {
 				String line = myReader.nextLine();
 				String[] data = line.split(", ");
-				mutants.add(Integer.parseInt(data[1].substring(1)));
-				tests.add(Integer.parseInt(data[2].substring(1)));
-				cores.add(Integer.parseInt(data[3].substring(1)));
-				algorithms.add(Integer.parseInt(data[4].substring(1)));
-				optimizations.add(Integer.parseInt(data[5]));
+				input.putRow(n, Nd4j.createFromArray( new float[]{
+						Integer.parseInt(data[1].substring(1)), // mutants
+						Integer.parseInt(data[2].substring(1)), // tests
+						Integer.parseInt(data[3].substring(1)), // cores
+						Integer.parseInt(data[4]), // tiempo total
+						Integer.parseInt(data[5]), // tiempo original
+						Integer.parseInt(data[6]), // tiempo mutantes
+						Float.parseFloat(data[7]), // mutation score
+						} ));
+				output.putRow(n, crearSalida(Integer.parseInt(data[8].substring(1)), data[9]));
 				n++;
+				System.out.println("input: " + input);
+				System.out.println("output: " + output);
 			}
 			myReader.close();
 	    } catch (FileNotFoundException e) {
@@ -66,11 +67,6 @@ public class NetworkTrainer {
 //		int maxMutants = Collections.max(mutants);
 //		int maxTests = Collections.max(tests);
 //		int maxCores = Collections.max(cores);
-		for (int i = 0; i < n; i++) {
-//			input.putRow(i, Nd4j.createFromArray( new int[]{mutants.get(i)/maxMutants, tests.get(i)/maxTests, cores.get(i)/maxCores} ));
-			input.putRow(i, Nd4j.createFromArray( new int[]{mutants.get(i), tests.get(i), cores.get(i)} ));
-			output.putRow(i, crearSalida(algorithms.get(i), optimizations.get(i)));
-		}
 		
 		//Join input and output matrixes into a data-set
 		DataSet dataSet = new DataSet( input, output );
@@ -85,14 +81,9 @@ public class NetworkTrainer {
 		return dsi;
 	}
 	
-	private static INDArray crearSalida(Integer alg, Integer opt) {
+	private static INDArray crearSalida(Integer alg, String opt) {
 		int[] out = new int[N_OUTCOMES];
-		out[alg-1] = 1;
-		// Hasta encontrar la manera de anadir las optimizaciones se queda esto comentado
-//		String tmp = Integer.toString(opt);
-//		for (int i = 0; i < tmp.length(); i++) {
-//		    out[i+5] = tmp.charAt(i) - '0';
-//		}
+		out[64*(alg-1)+Integer.parseInt(opt,2)] = 1;
 		return Nd4j.createFromArray(out);
 	}
 	
@@ -118,12 +109,12 @@ public class NetworkTrainer {
 		  .list()
 		  .layer(new DenseLayer.Builder() //create the first, input layer with Xavier initialization
 		    .nIn(N_INPUTS)
-		    .nOut(50)
+		    .nOut(325)
 		    .activation(Activation.RELU)
 		    .weightInit(WeightInit.XAVIER)
 		    .build())
 		  .layer(new OutputLayer.Builder(LossFunction.NEGATIVELOGLIKELIHOOD) //create hidden layer
-		    .nIn(50)
+		    .nIn(325)
 		    .nOut(N_OUTCOMES)
 		    .activation(Activation.SOFTMAX)
 		    .weightInit(WeightInit.XAVIER)

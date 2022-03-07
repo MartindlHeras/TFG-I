@@ -44,9 +44,13 @@
  - #lineas del .c (**falta**)
  - #especificaciones del ordenador? (*muy problemático a la hora de entrenar*)
  - max num de cores
+ - tiempo total de ejecucion del programa sin mutar
  - *tiempo total (tiempos totales?) (solo para entrenar)*
  - *tiempo de cada mutante? (solo para entrenar)*
  - *tamaño del fichero?*
+ - Ver si se pueden meter datos entrenando que luego no se metan prediciendo
+ - [Complejidad ciclomática](https://github.com/ideadapt/metriculator)
+ - Tamaño del entorno (test suite + parámetros del test suite por ejemplo imágenes o archivos a comprimir)
 
 Al final los inputs tienen que ser datos que se sepan antes de ejecutar porque el objetivo del proyecto es hacer un predictor, el tiempo de ejecución solo puede servir para determinar qué algoritmo (y optimizaciones) es el mejor, por lo que el tiempo de los mutantes es creo que irrelevante para la ANN
 

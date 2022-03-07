@@ -1,68 +1,95 @@
 package naos.workbench;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class FileParser {
 	String path;
 	String fileName;
 	File f;
-	private static final int INPUTS = 6; // Sin lineas del .c
+	private static final int INPUTS = 10;
 	
 	// En el constructor se divide entre el path del archivo que nos han pasado (la carpeta donde vamos a buscar)
 	// y el archivo de donde sacaremos los datos iniciales que usaremos para encontrar el input de la ANN
 	public FileParser(String path) throws FileNotFoundException {
-		this.path = path.substring(0, path.lastIndexOf("/"));
-		this.fileName = path.substring(path.lastIndexOf("/") + 1);
+		this.path = path;
 		this.f = new File(this.path);
 	}
 	
 	
-	public String[] getInputs() throws FileNotFoundException {
-		String[] parts = this.fileName.split("_");
-		String[] inputs = new String[INPUTS];
-		double minTime = Double.MAX_VALUE;
+	public List<String[]> getInputs() throws FileNotFoundException {
+		List<String[]> inputs = new ArrayList<String[]>();
 		
-		// Asignamos nombre del programa, #mutantes, #tests, #cores, algoritmo inicial y optimizaciones iniciales
-		for (int i = 0; i < INPUTS; i++) {
-		      inputs[i] = parts[5+i];
-		}
-		
-		// Recorre todos los ficheros que coinciden en programa, mutantes, tests y cores
-		for (final File fileEntry : this.f.listFiles()) {
-			String[] tmp = fileEntry.getName().split("_");
-			if (inputs[0].equals(tmp[5]) && inputs[1].equals(tmp[6]) && inputs[2].equals(tmp[7]) && inputs[3].equals(tmp[8])) {
-				// Si el tiempo del fichero es menor que el que tenemos, actualiza el minimo, algoritmo y optimizaciones
-				double tmpTime = getTime(fileEntry.getName());
-				if (minTime > tmpTime) {
-					minTime = tmpTime;
-					inputs[4] = tmp[9];
-					inputs[5] = tmp[10];
+//		input -> [nombre,mutantes,tests,cores,tiempo,tiempo original,tiempo mutantes,mutation score,algoritmo,optimizaciones]
+				
+		for (final File fileName : this.f.listFiles()) {
+			String[] input = new String[INPUTS];
+			double minTime = Double.MAX_VALUE;
+			String[] parts = fileName.getName().split("_");
+			boolean flag = false;
+			// Asignamos nombre del programa, #mutantes, #tests, #cores, algoritmo inicial y optimizaciones iniciales
+			for (int i = 0; i < 4; i++) {
+			      input[i] = parts[5+i];
+			}
+			input[8] = parts[9]; // Algoritmo inicial
+			input[9] = parts[10]; // Optimizaciones
+			for (int i = 0; i < inputs.size(); i++) {
+				if (input[0].equals(inputs.get(i)[0]) && input[1].equals(inputs.get(i)[1]) && input[2].equals(inputs.get(i)[2]) && input[3].equals(inputs.get(i)[3])) { // Si ya he pasado por esas especificaciones
+					flag = true;
+					break;
 				}
 			}
-	    }
-		return inputs;
-	}
-
-	private double getTime(String fileName) throws FileNotFoundException {
-		// Se crea un FILE para buscar exactamente en el fichero que queremos (siempre se llama igual)
-		File f = new File(this.path + "/" + fileName + "/malone_overview.txt");
-		Scanner scan = new Scanner(f);
-		while (scan.hasNextLine()) {
-			String[] tmp = scan.nextLine().split(":");
-			// Recorremos hasta llegar a la linea que nos interesa y devolvemos el valor del tiempo
-			if (tmp[0].equals("Total time")) { // RegEx
-				scan.close();
-				return Double.parseDouble(tmp[1]);
+			if (flag) {
+				continue;
 			}
+			// Recorre todos los ficheros que coinciden en programa, mutantes, tests y cores
+			for (final File fileEntry : this.f.listFiles()) {
+				String[] tmp = fileEntry.getName().split("_");
+				if (input[0].equals(tmp[5]) && input[1].equals(tmp[6]) && input[2].equals(tmp[7]) && input[3].equals(tmp[8])) {
+					// Si el tiempo del fichero es menor que el que tenemos, actualiza el minimo, algoritmo y optimizaciones
+					File f = new File(this.path + "/" + fileEntry.getName() + "/malone_overview.txt");
+					Scanner scan = new Scanner(f);
+					double totalTime = 0;
+					String originalTime = null, mutantsTime = null, mutationScore = null;
+					while (scan.hasNextLine()) {
+						String[] tmpFileTime = scan.nextLine().split(":");
+						// Recorremos hasta llegar a la linea que nos interesa y devolvemos el valor del tiempo
+						if (tmpFileTime[0].equals("Total time")) { // RegEx
+							totalTime = Double.parseDouble(tmpFileTime[1]);
+						}
+						if (tmpFileTime[0].equals("Original time")) { // RegEx
+							originalTime = tmpFileTime[1];
+						}
+						if (tmpFileTime[0].equals("Mutants time")) { // RegEx
+							mutantsTime = tmpFileTime[1];
+						}
+						if (tmpFileTime[0].equals("Mutation score")) { // RegEx
+							mutationScore = tmpFileTime[1];
+						}
+					}
+					scan.close();
+					if (minTime > totalTime) {
+						minTime = totalTime;
+						input[4] = Integer.toString((int)totalTime);
+						input[5] = originalTime.substring(1);
+						input[6] = mutantsTime.substring(1);
+						input[7] = mutationScore.substring(1);
+						input[8] = tmp[9];
+						input[9] = tmp[10];
+					}
+				}
+		    }
+			inputs.add(input);
 		}
-		scan.close();
-		return Double.MAX_VALUE;
+		
+		return inputs;
 	}
 
 	public static void main(String[] args) {
 		FileParser fp = null;
-		String[] inputs;
+		List<String[]> inputs;
 		
 		try {
 			fp = new FileParser(args[0]);
@@ -78,8 +105,10 @@ public class FileParser {
 			return;
 		}
 		
-		for (int i = 0; i < inputs.length; i++) {
-			System.out.println("Inputs " + i + ": " + inputs[i]);
+		for (int i = 0; i < inputs.size(); i++) {
+			for (int j = 0; j < inputs.get(i).length; j++) {
+				System.out.println("Inputs " + i + ":" + j + " = " + inputs.get(i)[j]);
+			}
 		}
 
 		return;

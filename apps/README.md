@@ -2,6 +2,8 @@
 http: integrada pero no funciona
 massive: ok
 
+Agrupar por complejidad para que esté equilibrado
+
 #### Overview
  - Fuentes.txt (mejor en el README)
      - Web: descripción de donde sacar aplicación

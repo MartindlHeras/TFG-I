@@ -17,11 +17,12 @@ public class Naos {
 	
 	private static void train(String fullFolderName) {
 		FileParser fp = null;
-		String[] inputs;
+		List<String[]> inputs;
 		
 		try {
 			fp = new FileParser(fullFolderName);
 			inputs = fp.getInputs();
+			// AQUI SACAR #LINEAS DEL .c Y TAMANO DEL TEST SUITE
 		} catch (FileNotFoundException e) {
 			System.out.println("Error: " + e + " while handling the file");
 			return;
@@ -29,7 +30,9 @@ public class Naos {
 		
 		try {
 			FileWriter fw = new FileWriter("db.txt", true);
-			fw.append(Arrays.toString(inputs).substring(1, Arrays.toString(inputs).length()-1) + "\n");
+			for (int i = 0; i < inputs.size(); i++) {
+				fw.append(Arrays.toString(inputs.get(i)).substring(1, Arrays.toString(inputs.get(i)).length()-1) + "\n");
+			}
 			fw.close();
 		} catch (IOException e) {
 			System.out.println("Error while writing on db");
@@ -46,11 +49,27 @@ public class Naos {
 			return;
 		}
 		
-		// Esencialmente crear un dataset como en NetworkTraining pero solo con un elemento
-		INDArray input = createInput(inputs[1].substring(1),inputs[2].substring(1),inputs[3].substring(1));
-		int[] label = new int[5];
-		label[Integer.parseInt(inputs[4].substring(1))-1] = 1;
-		INDArray output = Nd4j.create(new int[]{ 1, 5 }).putRow(0, Nd4j.createFromArray(label));
+		// Esencialmente crear un dataset como en NetworkTraining
+
+		INDArray input = Nd4j.create(new int[]{ inputs.size(), 7 });
+		INDArray output = Nd4j.create(new int[]{ inputs.size(), 320 });
+		for (int i = 0; i < inputs.size(); i++) {
+			
+			input.putRow(0, Nd4j.createFromArray(new float[] {
+				 									Integer.parseInt(inputs.get(i)[1].substring(1)), 
+				 									Integer.parseInt(inputs.get(i)[2].substring(1)), 
+				 									Integer.parseInt(inputs.get(i)[3].substring(1)),
+				 									Integer.parseInt(inputs.get(i)[4]),
+				 									Integer.parseInt(inputs.get(i)[5]),
+				 									Integer.parseInt(inputs.get(i)[6]),
+				 									Float.parseFloat(inputs.get(i)[7])
+				 									}));
+			int[] label = new int[320];
+			// indexOut = 64*(algoritmo - 1) + optimizaciones
+			int indexOut = 64*(Integer.parseInt(inputs.get(i)[8].substring(1))-1)+Integer.parseInt(inputs.get(i)[9],2);
+			label[indexOut] = 1;
+			output.putRow(0, Nd4j.createFromArray(label));
+		}
 		DataSet dataSet = new DataSet( input, output );
 		
 		List<DataSet> listDataSet = dataSet.asList();
@@ -77,16 +96,19 @@ public class Naos {
 		
 		// Obtener e interpretar el output a traves del modelo que ya tenemos
 		INDArray output = model.output(createInput(nMutants,nTests,nCores));
+		
 		float maxO = 0;
-		int alg = 0;
-		for (int i = 0; i < 5; i++) {
+		int pos = 0;
+		for (int i = 0; i < 320; i++) {
 			if (output.getFloat(i) > maxO) {
-				alg = i+1;
+				pos = i;
 				maxO = output.getFloat(i);
 			}
 		}
+		int alg = (pos/64)+1;
+		int optInt = pos%64;
 		
-		return "a" + alg;
+		return "a" + alg + ", " + Integer.toBinaryString(0x1000000 | optInt).substring(1);
 	}
 	
 	private static INDArray createInput(String nMutants, String nTests, String nCores) {
@@ -111,12 +133,12 @@ public class Naos {
 			System.out.println("ANN trained successfully");
 		}
 		else if (args[0].equals("-p")) {
-			System.out.println("The optimal algorithm for this situation is: " + predict(args[1], args[2], args[3], args[4]));
+			System.out.println("The best algorithm and optimizations for this situation are: " + predict(args[1], args[2], args[3], args[4]));
 		}
 		else {
 			System.out.println("Wrong command input, please select an option:");
-			System.out.println("-t <fullFolderName> to train the Neural Network"); // Tengo que transformar para que funcione tambien con paths locales
-			System.out.println("-p <fileName> <nMutants> <nTests> <nCores> to get the optimal execution mode"); // Buscar un modo con menos inputs
+			System.out.println("-t <fullFolderName> to train the Neural Network");
+			System.out.println("-p <fileName> <nMutants> <nTests> <nCores> to get the optimal execution mode"); // CAMBIAR ESTO PARA LOS INPUTS FINALES
 		}
 		return;
 	}
