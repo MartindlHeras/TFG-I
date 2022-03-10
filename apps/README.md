@@ -1,8 +1,17 @@
 ## Applications
-http: integrada pero no funciona
-massive: ok
 
-Agrupar por complejidad para que esté equilibrado
+#### Complete
+ - [x] genPassword (mutants)
+ - [x] massive (mutants)
+ - [x] mergeSort (mutants)
+ - [ ] http (mutants and tests)
+ - [ ] beaufort (mutants and tests)
+ - [ ] kann (mirarlo bien)
+ - [ ] bzip2 (all)
+ - [ ] cjson (README, mutants and tests)
+
+ Mutants add automatically when executed.
+
 
 #### Overview
  - Fuentes.txt (mejor en el README)
@@ -13,6 +22,29 @@ Agrupar por complejidad para que esté equilibrado
      - mutantes.zip
      - descripción.txt
      - apporiginal.zip
+
+#### KANN
+Echate un ojo a este [repositorio](https://github.com/attractivechaos/kann/tree/master/examples)
+
+Es una aplicación para el uso de redes neuronales, la verdad que mola un monton. Tiene implementados varias técnicas, tenemos que hablar si las separamos o lo dejamos en un único programa.
+
+#### S < 100
+ - add
+ - anagram
+ - genpassword
+ - massive
+ - primes
+ - transpose
+
+#### M < 1000
+ - mergeSort
+ - http
+ - beaufort
+ - kann (probablemente L)
+
+#### L > 1000
+ - bzip2
+ - cjson
 
 #### C Programs
  - [Programas en C en un archivo](https://github.com/nothings/single_file_libs)

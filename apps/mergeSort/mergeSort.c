@@ -109,9 +109,14 @@ void printArray(int arr[], int size)
 }
 
 int
-main()
+main(int argc, char const *argv[])
 {
-    int arr[] = {4, 5, 8, 1, 19};
+    // int arr[] = {4, 5, 8, 1, 19};
+    int arr[argc];
+    for (int i = 0; i < argc; i++){
+        arr[i] = atoi(argv[i+1]);
+    }
+    
     int size = sizeof(arr)/sizeof(arr[0]);
 
     printf("Given array is \n");

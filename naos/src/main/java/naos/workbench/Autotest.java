@@ -7,7 +7,7 @@ public class Autotest {
 
 	public static void main(String[] args) {
 		if (args.length < 3) {
-			System.out.println("Autotest.java <fileName> <mutants> <tests> to generate autotests");
+			System.out.println("Autotest.java <fileName> <mutants> <tests> <$MUTOMVO_HOME> <$MALONE_HOME> to generate autotests");
 			return;
 		}
 		
@@ -16,16 +16,16 @@ public class Autotest {
 				String bOpt = String.format("%6s", Integer.toBinaryString(i)).replaceAll(" ", "0");
 				String fileName = "test_autotest_" + args[0] + "_stand_" + bOpt + "_m" + args[1] + "_t" + args[2] + ".ini";
 				System.out.println("Creating file: " + fileName + "...");
-				FileWriter fw = new FileWriter("/home/martin/Documents/Malone/Environments/autotest/" + fileName);
-//				FileWriter fw = new FileWriter("/home/martin/Documents/Malone/Environments/autotest/" + args[0] + "/" + fileName);
+				FileWriter fw = new FileWriter(args[4] + "/Environments/autotest/" + fileName);
+//				FileWriter fw = new FileWriter(args[4] + "/Environments/autotest/" + args[0] + "/" + fileName);
 				fw.write("[general] "
-						+ "\nFrameworkPath=/localStorage/mutomvo"
-						+ "\nApplicationPath=/localStorage/mutomvo/apps"
-						+ "\nMutantPath=/localStorage/mutomvo/project_" + args[0] + "/mutants"
+						+ "\nFrameworkPath=" + args[3] + ""
+						+ "\nApplicationPath=" + args[3] + "/apps"
+						+ "\nMutantPath=" + args[3] + "/project_" + args[0] + "/mutants"
 						+ "\nApplicationName=" + args[0] + ""
 						+ "\nExecutionLineOriginal=[[ORIGINAL_PATH]]/"
 						+ "\nExecutionLineMutants=[[MUTANTS_PATH]]/[[INDEX_MUTANT]]/"
-						+ "\nGenerationLineMutants=cd /localStorage/mutomvo/bin && java -jar mutomvo.jar -p " + args[0] + " -g"
+						+ "\nGenerationLineMutants=cd " + args[3] + "/bin && java -jar mutomvo.jar -p " + args[0] + " -g"
 						+ "\nTotalTests=" + args[2] + ""
 						+ "\nTotalMutants=" + args[1] + ""
 						+ "\nStartingMutant=1"
@@ -39,7 +39,7 @@ public class Autotest {
 						+ "\nMultipleCoordinators=0"
 						+ "\n\n[standalone]"
 						+ "\nStandalone=1"
-						+ "\nTestSuiteFile=/localStorage/mutomvo/project_" + args[0] + "/testsFile.txt"
+						+ "\nTestSuiteFile=" + args[3] + "/project_" + args[0] + "/testsFile.txt"
 						+ "\n\n[compilation]"
 						+ "\nCompilationEnabled=1"
 						+ "\nCompilationLineOriginal=gcc -O3 -lm -Wall [[ORIGINAL_PATH]]/" + args[0] + ".c -o [[ORIGINAL_PATH]]/" + args[0] + " "

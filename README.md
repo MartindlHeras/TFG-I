@@ -16,33 +16,24 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 ---
 
 ### Cositas
- 1. NAOS - Argumentos de entrada
- 2. NAOS - Carpeta de entrada (Results)
- 3. ANN - Regenerar con nuevas capas
- 4. ANN - Metadatos
+ 1. Autotest - Generar 64*5 por cada iteración de cores 2-4-8-16-32 -> .txt (mpirun -n 2 ./malone -e autotest/test_autotest_$1_stand.ini -a 4 estos comandos en un txt)
+ 2. NAOS - Carpeta de apps/ para sacar #lineas y tamaño TS
+ 3. apps/ - Terminar de adaptar las aplicaciones
+ 4. apps/ - Adaptar más aplicaciones
  5. DB - Llenar base de datos
- 6. Script - Automatizar que dándole al script se haga todo
- 7. README - apps/
- 8. Complejidad ciclomática?
-
- ### Preguntas
- 1. Tema Inputs: si tengo la carpeta de Results de dónde saco las líneas del .c y el tamaño del TS?
 
 ### ToDo
- - [x] Argumentos de entrada de NAOS
- - [ ] Dividir database en training y testing
- - [x] Ver #procesadores
- - [ ] Ver si se pueden incluir metadatos en la fase de entrenamiento, que despues no haga falta incluir en la fase de predicción. (Metadatos como en [lo de DeepMind](https://www.youtube.com/watch?v=AO6ID_xoqq4))
+ - [x] Adaptar el script para soportar que, dada una aplicacion, se ejecute todo lo que necesitamos para las ANN.
+ - [ ] Editar Autotest.java -> (tiene que generar 64 por cada algoritmo y luego ir aumentando número de cores de 2^1 a 2^5 = 320*5).
+ - [ ] Pasar la carpeta del repositorio de aplicacion, para sacar datos de la app.
  - [ ] Un par de aplicaciones más adaptadas.
- - [ ] Llenar la base de datos -> probar qué tal predice.
- - [ ] Adaptar el script para soportar que, dada una aplicacion, se ejecute todo lo que necesitamos para las ANN.
- - [ ] Tabla en latex, que incluya: nombre app, LoC, grado de complejidad o tamaño, descripción.
- - [ ] Meterle mas parametros a la ANN.
-
+ - [ ] Llenar la base de datos
+ - [ ] Mirar transformer
+ - [ ] Mirar repositorio KANN
 
 ### Mid term
- - [ ] Intentar saber qué cantidad de modelos con los que es necesario entrenar el modelo inicial. 
- - [ ] Anyadir al sistema complejidad ciclomatica: [https://github.com/ideadapt/metriculator](https://github.com/ideadapt/metriculator)
+ - [ ] Dividir database en training y testing
+ - [ ] Añadir al sistema [complejidad ciclomatica](https://github.com/ideadapt/metriculator)
 
 ---
 

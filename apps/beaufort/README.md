@@ -1,4 +1,4 @@
-## add.c
+## beaufort.c
  - overview: A C implementation of the Beaufort Cipher
  - input: flags and a pipe (see the example)
  - output: 

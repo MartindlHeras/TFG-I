@@ -1,3 +1,0 @@
-Echate un ojo a este repositorio: https://github.com/attractivechaos/kann/tree/master/examples
-
-Es una aplicación para el uso de redes neuronales, la verdad que mola un monton. Tiene implementados varias técnicas, tenemos que hablar si las separamos o lo dejamos en un único programa.
