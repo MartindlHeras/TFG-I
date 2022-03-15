@@ -1,0 +1,20 @@
+-h
+-l
+-h -l
+-lh
+-hl
+-ffff
+-f
+-a
+-afafaff
+-v
+-s parg_getopt_long_reqarg_missing
+-t parg_getopt_long_reqarg_missing
+-e
+-x parg_getopt_long_reqarg_missing
+-t parg_getopt_long_reqarg_missing -s parg_getopt_long_reqarg_missing
+-l -s parg_getopt_long_reqarg_missing
+-laev -s parg_getopt_long_reqarg_missing
+-V -s parg_getopt_long_reqarg_missing
+-jis -s parg_getopt_long_reqarg_missing
+-siv -s parg_getopt_long_reqarg_missing
