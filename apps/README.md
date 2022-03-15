@@ -33,12 +33,12 @@ Es una aplicación para el uso de redes neuronales, la verdad que mola un monton
 
 | S (< 100) | M (< 1000) | L (> 1000) |
 | ----------- | ----------- | ----------- |
-| add | mergeSort | parg |
-| anagram | http | bzip2 |
-| genPassword | beaufort | cjson |
-| massive | kann |  |
-| primes |  |  |
-| transpose |  |  |
+| [add](https://github.com/MartindlHeras/TFG_I/edit/main/apps/add) | [mergeSort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/mergeSort) | [parg](https://github.com/MartindlHeras/TFG_I/edit/main/apps/parg) |
+| [anagram](https://github.com/MartindlHeras/TFG_I/edit/main/apps/anagram) | [http](https://github.com/MartindlHeras/TFG_I/edit/main/apps/http) | [bzip2](https://github.com/MartindlHeras/TFG_I/edit/main/apps/bzip2) |
+| [genPassword](https://github.com/MartindlHeras/TFG_I/edit/main/apps/genPassword) | [beaufort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/beaufort) | [cjson](https://github.com/MartindlHeras/TFG_I/edit/main/apps/cjson) |
+| [massive](https://github.com/MartindlHeras/TFG_I/edit/main/apps/massive) | [kann](https://github.com/MartindlHeras/TFG_I/edit/main/apps/kann) |  |
+| [primes](https://github.com/MartindlHeras/TFG_I/edit/main/apps/primes) |  |  |
+| [transpose](https://github.com/MartindlHeras/TFG_I/edit/main/apps/transpose) |  |  |
 
 #### C Programs
  - [Programas en C en un archivo](https://github.com/nothings/single_file_libs)
