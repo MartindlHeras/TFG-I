@@ -29,6 +29,8 @@ Echate un ojo a este [repositorio](https://github.com/attractivechaos/kann/tree/
 
 Es una aplicación para el uso de redes neuronales, la verdad que mola un monton. Tiene implementados varias técnicas, tenemos que hablar si las separamos o lo dejamos en un único programa.
 
+#### Apps Table
+
 | S (< 100) | M (< 1000) | L (> 1000) |
 | ----------- | ----------- | ----------- |
 | add | mergeSort | parg |
@@ -37,25 +39,6 @@ Es una aplicación para el uso de redes neuronales, la verdad que mola un monton
 | massive | kann |  |
 | primes |  |  |
 | transpose |  |  |
-
-#### S < 100
- - add
- - anagram
- - genpassword
- - massive
- - primes
- - transpose
-
-#### M < 1000
- - mergeSort
- - http
- - beaufort
- - kann (probablemente L)
-
-#### L > 1000
- - bzip2
- - cjson
- - parg
 
 #### C Programs
  - [Programas en C en un archivo](https://github.com/nothings/single_file_libs)
