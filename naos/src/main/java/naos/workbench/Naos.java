@@ -15,17 +15,18 @@ import org.nd4j.linalg.factory.Nd4j;
 
 public class Naos {
 	
-	private static void train(String fullFolderName) {
+	private static final int N_INPUTS = 9;
+	
+	private static List<String[]> fill(String fullFolderName, String appsFolder) {
 		FileParser fp = null;
 		List<String[]> inputs;
-		
+		System.out.println("Filling DB...");
 		try {
-			fp = new FileParser(fullFolderName);
-			inputs = fp.getInputs();
-			// AQUI SACAR #LINEAS DEL .c Y TAMANO DEL TEST SUITE
+			fp = new FileParser(fullFolderName, appsFolder);
+			inputs = fp.getInputs();			
 		} catch (FileNotFoundException e) {
 			System.out.println("Error: " + e + " while handling the file");
-			return;
+			return null;
 		}
 		
 		try {
@@ -37,8 +38,15 @@ public class Naos {
 		} catch (IOException e) {
 			System.out.println("Error while writing on db");
 		}
+		return inputs;
+	}
+	
+	private static void train(String fullFolderName, String appsFolder) {
+		List<String[]> inputs;
 		
-		System.out.println("Import model....");
+		inputs = fill(fullFolderName, appsFolder);
+		
+		System.out.println("Import model...");
 		
 		MultiLayerNetwork model = null;
 		try {
@@ -51,7 +59,7 @@ public class Naos {
 		
 		// Esencialmente crear un dataset como en NetworkTraining
 
-		INDArray input = Nd4j.create(new int[]{ inputs.size(), 7 });
+		INDArray input = Nd4j.create(new int[]{ inputs.size(), N_INPUTS });
 		INDArray output = Nd4j.create(new int[]{ inputs.size(), 320 });
 		for (int i = 0; i < inputs.size(); i++) {
 			
@@ -62,11 +70,13 @@ public class Naos {
 				 									Integer.parseInt(inputs.get(i)[4]),
 				 									Integer.parseInt(inputs.get(i)[5]),
 				 									Integer.parseInt(inputs.get(i)[6]),
-				 									Float.parseFloat(inputs.get(i)[7])
+				 									Float.parseFloat(inputs.get(i)[7]),
+				 									Integer.parseInt(inputs.get(i)[8]),
+				 									Integer.parseInt(inputs.get(i)[9])
 				 									}));
 			int[] label = new int[320];
 			// indexOut = 64*(algoritmo - 1) + optimizaciones
-			int indexOut = 64*(Integer.parseInt(inputs.get(i)[8].substring(1))-1)+Integer.parseInt(inputs.get(i)[9],2);
+			int indexOut = 64*(Integer.parseInt(inputs.get(i)[10].substring(1))-1)+Integer.parseInt(inputs.get(i)[11],2);
 			label[indexOut] = 1;
 			output.putRow(0, Nd4j.createFromArray(label));
 		}
@@ -129,11 +139,15 @@ public class Naos {
 			return;
 		}
 		if (args[0].equals("-t")) {
-			train(args[1]);
+			train(args[1], args[2]);
 			System.out.println("ANN trained successfully");
 		}
 		else if (args[0].equals("-p")) {
 			System.out.println("The best algorithm and optimizations for this situation are: " + predict(args[1], args[2], args[3], args[4]));
+		}
+		else if (args[0].equals("-f")) {
+			fill(args[1], args[2]);
+			System.out.println("Database has been filled");
 		}
 		else {
 			System.out.println("Wrong command input, please select an option:");

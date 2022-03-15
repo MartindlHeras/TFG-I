@@ -10,14 +10,15 @@ public class Autotest {
 			System.out.println("Autotest.java <fileName> <mutants> <tests> <$MUTOMVO_HOME> <$MALONE_HOME> to generate autotests");
 			return;
 		}
-		
-		for (int i = 0; i < 64; i++) {
-			try {
+		try {
+			FileWriter testsW = new FileWriter(args[4] + "/Environments/autotest/" + args[0] + "/execLines.txt");
+			for (int i = 0; i < 64; i++) {
 				String bOpt = String.format("%6s", Integer.toBinaryString(i)).replaceAll(" ", "0");
 				String fileName = "test_autotest_" + args[0] + "_stand_" + bOpt + "_m" + args[1] + "_t" + args[2] + ".ini";
 				System.out.println("Creating file: " + fileName + "...");
-				FileWriter fw = new FileWriter(args[4] + "/Environments/autotest/" + fileName);
-//				FileWriter fw = new FileWriter(args[4] + "/Environments/autotest/" + args[0] + "/" + fileName);
+				String fullFileName = args[4] + "/Environments/autotest/" + args[0] + "/" + fileName;
+//				FileWriter fw = new FileWriter(args[4] + "/Environments/autotest/" + fileName);
+				FileWriter fw = new FileWriter(fullFileName);
 				fw.write("[general] "
 						+ "\nFrameworkPath=" + args[3] + ""
 						+ "\nApplicationPath=" + args[3] + "/apps"
@@ -60,10 +61,17 @@ public class Autotest {
 						+ "\nMarkerToken="
 						+ "\nMutantGenerationEnabled=0");
 				fw.close();
-			} catch (IOException e) {
-				System.out.println("Error writing files");
-				e.printStackTrace();
-			}
+				for (int j = 1; j <= 5; j++) {
+					for (int k = 1; k <= 5 ; k++) {
+						testsW.write("mpirun -n " + (int) Math.pow(2, k) + " ./malone -e " + "autotest/" + args[0] + "/" + fileName + " -a " + j + "\n");
+					}
+				}
+				}
+			testsW.close();
+		}
+		catch (IOException e) {
+			System.out.println("Error writing files");
+			e.printStackTrace();
 		}
 
 	}

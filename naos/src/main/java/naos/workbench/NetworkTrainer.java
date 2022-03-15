@@ -29,7 +29,7 @@ public class NetworkTrainer {
 	private static final String DATASET_ROOT_FOLDER = "/home/martin/Documents/TFG_I/naos/";
 	private static final int N_SAMPLES_TRAINING = 9;
 	private static final int N_SAMPLES_TESTING = 9;
-	private static final int N_INPUTS = 7;
+	private static final int N_INPUTS = 9;
 	private static final int N_OUTCOMES = 320;
 	
 	// IMPORTANTE ADAPTAR AL PATH DE TRAINING Y TESTS QUE NO HE HECHO
@@ -52,8 +52,10 @@ public class NetworkTrainer {
 						Integer.parseInt(data[5]), // tiempo original
 						Integer.parseInt(data[6]), // tiempo mutantes
 						Float.parseFloat(data[7]), // mutation score
+						Integer.parseInt(data[8]), // lineas .c
+						Integer.parseInt(data[9]), // size TS
 						} ));
-				output.putRow(n, crearSalida(Integer.parseInt(data[8].substring(1)), data[9]));
+				output.putRow(n, crearSalida(Integer.parseInt(data[10].substring(1)), data[11]));
 				n++;
 				System.out.println("input: " + input);
 				System.out.println("output: " + output);

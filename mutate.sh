@@ -16,7 +16,6 @@ else
     cp apps/$1/tests_$1.txt $MUTOMVO_HOME/project_$1
 
     echo "########################### RUNNING MUTOMVO... ############################"
-    # ./$MUTOMVO_HOME/run_scaled java -jar $MUTOMVO_HOME/dist/mutomvo.jar
     cd $MUTOMVO_HOME
     ./run_scaled java -jar dist/mutomvo.jar
     # ./java -jar dist/mutomvo.jar
@@ -34,7 +33,7 @@ else
 
     cd naos/src/main/java/naos/workbench
     javac Autotest.java
-    java Autotest.java $1 $(ls $MUTOMVO_HOME/project_$1/mutants/ | wc -l) $(sed -n "$=" apps/$1/tests_$1.txt) $MUTOMVO_HOME $MALONE_HOME
+    java Autotest.java $1 $(ls $MUTOMVO_HOME/project_$1/mutants/ | wc -l) $(sed -n "$=" ../../../../../../apps/$1/tests_$1.txt) $MUTOMVO_HOME $MALONE_HOME
     cd -
 
     echo "################################## DONE! ##################################"

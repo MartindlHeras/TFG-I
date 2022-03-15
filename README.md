@@ -24,8 +24,8 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 
 ### ToDo
  - [x] Adaptar el script para soportar que, dada una aplicacion, se ejecute todo lo que necesitamos para las ANN.
- - [ ] Editar Autotest.java -> (tiene que generar 64 por cada algoritmo y luego ir aumentando número de cores de 2^1 a 2^5 = 320*5).
- - [ ] Pasar la carpeta del repositorio de aplicacion, para sacar datos de la app.
+ - [x] Editar Autotest.java -> (tiene que generar 64 por cada algoritmo y luego ir aumentando número de cores de 2^1 a 2^5 = 320*5).
+ - [x] Pasar la carpeta del repositorio de aplicacion, para sacar datos de la app.
  - [ ] Un par de aplicaciones más adaptadas.
  - [ ] Llenar la base de datos
  - [ ] Mirar transformer

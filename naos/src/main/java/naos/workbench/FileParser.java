@@ -1,20 +1,25 @@
 package naos.workbench;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class FileParser {
 	String path;
-	String fileName;
+	String appsPath;
 	File f;
-	private static final int INPUTS = 10;
+	private static final int INPUTS = 12;
 	
 	// En el constructor se divide entre el path del archivo que nos han pasado (la carpeta donde vamos a buscar)
 	// y el archivo de donde sacaremos los datos iniciales que usaremos para encontrar el input de la ANN
-	public FileParser(String path) throws FileNotFoundException {
+	public FileParser(String path, String appsPath) throws FileNotFoundException {
 		this.path = path;
+		this.appsPath = appsPath;
 		this.f = new File(this.path);
 	}
 	
@@ -23,6 +28,7 @@ public class FileParser {
 		List<String[]> inputs = new ArrayList<String[]>();
 		
 //		input -> [nombre,mutantes,tests,cores,tiempo,tiempo original,tiempo mutantes,mutation score,algoritmo,optimizaciones]
+		// input -> [nombre,mutantes,tests,cores,tiempo,tiempo original,tiempo mutantes,mutation score,lineas c,size TS,algoritmo,optimizaciones]
 				
 		for (final File fileName : this.f.listFiles()) {
 			String[] input = new String[INPUTS];
@@ -33,8 +39,8 @@ public class FileParser {
 			for (int i = 0; i < 4; i++) {
 			      input[i] = parts[5+i];
 			}
-			input[8] = parts[9]; // Algoritmo inicial
-			input[9] = parts[10]; // Optimizaciones
+			input[10] = parts[9]; // Algoritmo inicial
+			input[11] = parts[10]; // Optimizaciones
 			for (int i = 0; i < inputs.size(); i++) {
 				if (input[0].equals(inputs.get(i)[0]) && input[1].equals(inputs.get(i)[1]) && input[2].equals(inputs.get(i)[2]) && input[3].equals(inputs.get(i)[3])) { // Si ya he pasado por esas especificaciones
 					flag = true;
@@ -76,11 +82,20 @@ public class FileParser {
 						input[5] = originalTime.substring(1);
 						input[6] = mutantsTime.substring(1);
 						input[7] = mutationScore.substring(1);
-						input[8] = tmp[9];
-						input[9] = tmp[10];
+						input[10] = tmp[9];
+						input[11] = tmp[10];
 					}
 				}
 		    }
+			// appsFolder = /home/martin/Documents/TFG_I/apps
+			Path cPath = Paths.get(this.appsPath + "/" + input[0] + "/" + input[0]+ ".c");
+			Path TSPath = Paths.get(this.appsPath + "/" + input[0] + "/tests_" + input[0] + ".txt");
+			try {
+				input[8] = Long.toString(Files.size(TSPath)); // TAMANO TS
+				input[9] = Long.toString(Files.lines(cPath).count()); // NUMERO DE LINEAS
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			inputs.add(input);
 		}
 		
@@ -92,7 +107,7 @@ public class FileParser {
 		List<String[]> inputs;
 		
 		try {
-			fp = new FileParser(args[0]);
+			fp = new FileParser(args[0], args[1]);
 		} catch (FileNotFoundException e) {
 			System.out.println("Error: " + e + " while creating object FileParser");
 			return;
