@@ -4,10 +4,14 @@
  - [x] genPassword (mutants)
  - [x] massive (mutants)
  - [x] mergeSort (mutants)
+ - [x] squareMatrix (mutants)
+ - [x] gcd (mutants)
+ - [x] factorial (mutants)
+ - [x] dictionaryOrder (mutants)
  - [ ] http (mutants and tests)
  - [ ] beaufort (mutants and tests)
  - [ ] kann (mirarlo bien)
- - [ ] parg (mutants)
+ - [x] parg (mutants)
  - [ ] bzip2 (all)
  - [ ] cjson (README, mutants and tests)
 
@@ -39,6 +43,10 @@ Es una aplicación para el uso de redes neuronales, la verdad que mola un monton
 | [massive](https://github.com/MartindlHeras/TFG_I/edit/main/apps/massive) | [kann](https://github.com/MartindlHeras/TFG_I/edit/main/apps/kann) |  |
 | [primes](https://github.com/MartindlHeras/TFG_I/edit/main/apps/primes) |  |  |
 | [transpose](https://github.com/MartindlHeras/TFG_I/edit/main/apps/transpose) |  |  |
+| [squareMatrix](https://github.com/MartindlHeras/TFG_I/edit/main/apps/squareMatrix) |  |  |
+| [gcd](https://github.com/MartindlHeras/TFG_I/edit/main/apps/gcd) |  |  |
+| [factorial](https://github.com/MartindlHeras/TFG_I/edit/main/apps/factorial) |  |  |
+| [dictionaryOrder](https://github.com/MartindlHeras/TFG_I/edit/main/apps/dictionaryOrder) |  |  |
 
 #### C Programs
  - [Programas en C en un archivo](https://github.com/nothings/single_file_libs)
