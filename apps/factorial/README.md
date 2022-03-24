@@ -4,6 +4,6 @@
  - output: 
      - print: factorial of the number
      - return: 0
- - #mutants: 
+ - #mutants: 30
  - #lines: 18
  - test format: factorial \<number\>

@@ -11,7 +11,7 @@ public class Autotest {
 			return;
 		}
 		try {
-			FileWriter testsW = new FileWriter(args[4] + "/Environments/autotest/" + args[0] + "/execLines.txt");
+			FileWriter testsW = new FileWriter(args[4] + "/Environments/autotest/" + args[0] + "/exec_" + args[0] + ".sh");
 			for (int i = 0; i < 64; i++) {
 				String bOpt = String.format("%6s", Integer.toBinaryString(i)).replaceAll(" ", "0");
 				String fileName = "test_autotest_" + args[0] + "_stand_" + bOpt + "_m" + args[1] + "_t" + args[2] + ".ini";
@@ -61,8 +61,8 @@ public class Autotest {
 						+ "\nMarkerToken="
 						+ "\nMutantGenerationEnabled=0");
 				fw.close();
-				for (int j = 1; j <= 5; j++) {
-					for (int k = 1; k <= 5 ; k++) {
+				for (int j = 2; j <= 5; j++) {
+					for (int k = 1; k <= 1 ; k++) {
 						testsW.write("mpirun -n " + (int) Math.pow(2, k) + " ./malone -e " + "autotest/" + args[0] + "/" + fileName + " -a " + j + "\n");
 					}
 				}

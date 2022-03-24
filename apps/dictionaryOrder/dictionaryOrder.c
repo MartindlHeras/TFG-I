@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 
-int main(int argc, char const *argv[]){   char str[5][50], temp[50];
+int main(int argc, char const *argv[]){
+   char str[5][50], temp[50];
 
    // Getting strings input
    for (int i = 0; i < 5; ++i) {
-      strcpy(argv[i+1], str[i]);
+      strcpy(str[i], argv[i+1]);
    }
 
    // storing strings in the lexicographical order

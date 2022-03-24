@@ -4,6 +4,6 @@
  - output: 
      - print: final number of iterations
      - return: 0
- - #mutants: 
+ - #mutants: 48
  - #lines: 13
  - test format: mass \<index\>

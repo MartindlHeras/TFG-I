@@ -4,6 +4,6 @@
  - output: 
      - print: array printed unordered and ordered
      - return: 0
- - #mutants: ??
+ - #mutants: 218
  - #lines: 130
  - test format: mergeSort \<array\> 

@@ -15,21 +15,21 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 
 ---
 
+### Preguntas
+ - factorial falla porque en el que era el caso 78 (-84) al ser negativo se imprime por pantalla error y tal y cierra el proceso entero porque "Original program NOT ok!!" pero esto es un testeo, tengo que probar también los casos extremos de fallo no?
+ - dictionaryOrder funciona ejecutar TS perfectamente pero dentro de Malone revienta muy bastamente
+ - gcd revienta en cuando le paso solo un argumento
+ - fallan todos los de matrices por bucles infinitos
+
 ### Cositas
- 1. Autotest - Generar 64*5 por cada iteración de cores 2-4-8-16-32 -> .txt (mpirun -n 2 ./malone -e autotest/test_autotest_$1_stand.ini -a 4 estos comandos en un txt)
- 2. NAOS - Carpeta de apps/ para sacar #lineas y tamaño TS
- 3. apps/ - Terminar de adaptar las aplicaciones
- 4. apps/ - Adaptar más aplicaciones
- 5. DB - Llenar base de datos
+ 1. apps/ - Adaptar más aplicaciones
+ 2. DB - Llenar base de datos
 
 ### ToDo
- - [x] Adaptar el script para soportar que, dada una aplicacion, se ejecute todo lo que necesitamos para las ANN.
- - [x] Editar Autotest.java -> (tiene que generar 64 por cada algoritmo y luego ir aumentando número de cores de 2^1 a 2^5 = 320*5).
- - [x] Pasar la carpeta del repositorio de aplicacion, para sacar datos de la app.
  - [ ] Un par de aplicaciones más adaptadas.
  - [ ] Llenar la base de datos
- - [ ] Mirar transformer
  - [ ] Mirar repositorio KANN
+ - [ ] Mirar si con otra función final se puede hacer lo de las 11 salidas (SOFTMAX)
 
 ### Mid term
  - [ ] Dividir database en training y testing
@@ -42,3 +42,4 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
  - Acceder directamente los archivos en $MALONE_HOME/Results
  - No cambiar la carpeta para ejecutar tanto Malone como Mutomvo
  - UI para la ANN
+ - Cortar salidas para que solo muestre algoritmo u optimizaciones

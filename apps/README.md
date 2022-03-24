@@ -1,17 +1,9 @@
 ## Applications
 
 #### Complete
- - [x] genPassword (mutants)
- - [x] massive (mutants)
- - [x] mergeSort (mutants)
- - [x] squareMatrix (mutants)
- - [x] gcd (mutants)
- - [x] factorial (mutants)
- - [x] dictionaryOrder (mutants)
  - [ ] http (mutants and tests)
  - [ ] beaufort (mutants and tests)
  - [ ] kann (mirarlo bien)
- - [x] parg (mutants)
  - [ ] bzip2 (all)
  - [ ] cjson (README, mutants and tests)
 

@@ -5,6 +5,6 @@
  - output: 
      - print: printed squared matrix
      - return: 0
- - #mutants: 
+ - #mutants: 181
  - #lines: 71
  - test format: squaredMatrix \<rows\> \<columns\> \<matrix\>

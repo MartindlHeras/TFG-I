@@ -4,6 +4,6 @@
  - output: 
      - print: tests output
      - return: 0
- - #mutants: 
+ - #mutants: 2508
  - #lines: 2518
  - test format: parg \<flags\>
