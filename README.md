@@ -24,6 +24,10 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 ### Cositas
  1. apps/ - Adaptar más aplicaciones
  2. DB - Llenar base de datos
+ 3. Cambiar el puts a print
+ 4. Excel con todas las ejecuciones tipo csv con los datos de ejecución de todo (modificando naos)
+ 5. Modificación de la función predict de naos
+ 6. Cambiar n 2 a n 3 en las ejecuciones del mpirun (después)
 
 ### ToDo
  - [ ] Un par de aplicaciones más adaptadas.

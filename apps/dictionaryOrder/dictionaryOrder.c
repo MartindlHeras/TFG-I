@@ -24,7 +24,9 @@ int main(int argc, char const *argv[]){
 
    printf("\nIn the lexicographical order: \n");
    for (int i = 0; i < 5; ++i) {
-      fputs(str[i], stdout);
+      // fputs(str[i], stdout);
+      printf("%s ", str[i]);
    }
+   printf("\n");
    return 0;
 }

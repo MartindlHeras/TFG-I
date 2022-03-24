@@ -28,7 +28,7 @@ mergeSort(int arr[], int l, int r);
 //
 #include <string.h>
 #include <stdlib.h>
-
+#include <stdio.h>
 // Merge the two half into a sorted data.
 void
 merge(int arr[], int l, int m, int r)
@@ -113,12 +113,11 @@ main(int argc, char const *argv[])
 {
     // int arr[] = {4, 5, 8, 1, 19};
     int arr[argc];
-    for (int i = 0; i < argc; i++){
+    for (int i = 0; i < argc-1; i++){
         arr[i] = atoi(argv[i+1]);
     }
-    
-    int size = sizeof(arr)/sizeof(arr[0]);
-
+    // int size = sizeof(arr)/sizeof(arr[0]);
+    int size = argc-1;
     printf("Given array is \n");
     printArray(arr, size);
 
