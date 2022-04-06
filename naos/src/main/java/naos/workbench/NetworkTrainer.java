@@ -27,8 +27,8 @@ import org.nd4j.linalg.lossfunctions.LossFunctions.LossFunction;
 public class NetworkTrainer {
 	
 	private static final String DATASET_ROOT_FOLDER = "/home/martin/Documents/TFG_I/naos/";
-	private static final int N_SAMPLES_TRAINING = 9;
-	private static final int N_SAMPLES_TESTING = 9;
+	private static final int N_SAMPLES_TRAINING = 14;
+	private static final int N_SAMPLES_TESTING = 14;
 	private static final int N_INPUTS = 9;
 	private static final int N_OUTCOMES = 320;
 	
@@ -99,7 +99,7 @@ public class NetworkTrainer {
 		
 		
 		int rngSeed = 123;
-		int nEpochs = 2; // Number of training epochs
+		int nEpochs = 4; // Number of training epochs
 
 		System.out.println("Build model....");
 		

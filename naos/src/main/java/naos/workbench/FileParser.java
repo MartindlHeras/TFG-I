@@ -101,6 +101,57 @@ public class FileParser {
 		
 		return inputs;
 	}
+	
+	public List<String[]> getFullInputs() throws FileNotFoundException {
+		List<String[]> inputs = new ArrayList<String[]>();
+		
+//		input -> [nombre,mutantes,tests,cores,tiempo,tiempo original,tiempo mutantes,mutation score,algoritmo,optimizaciones]
+		// input -> [nombre,mutantes,tests,cores,tiempo,tiempo original,tiempo mutantes,mutation score,lineas c,size TS,algoritmo,optimizaciones]
+				
+		for (final File fileName : this.f.listFiles()) {
+			String[] input = new String[INPUTS];
+			String[] parts = fileName.getName().split("_");
+			// Asignamos nombre del programa, #mutantes, #tests, #cores, algoritmo inicial y optimizaciones iniciales
+			for (int i = 0; i < 4; i++) {
+			      input[i] = parts[5+i];
+			}
+			input[10] = parts[9]; // Algoritmo inicial
+			input[11] = parts[10]; // Optimizaciones
+			
+			File f = new File(this.path + "/" + fileName.getName() + "/malone_overview.txt");
+			Scanner scan = new Scanner(f);
+			while (scan.hasNextLine()) {
+				String[] tmpFileTime = scan.nextLine().split(":");
+				// Recorremos hasta llegar a la linea que nos interesa y devolvemos el valor del tiempo
+				if (tmpFileTime[0].equals("Total time")) { // RegEx
+					input[4] = tmpFileTime[1].substring(1);
+				}
+				if (tmpFileTime[0].equals("Original time")) { // RegEx
+					input[5] = tmpFileTime[1].substring(1);
+				}
+				if (tmpFileTime[0].equals("Mutants time")) { // RegEx
+					input[6] = tmpFileTime[1].substring(1);
+				}
+				if (tmpFileTime[0].equals("Mutation score")) { // RegEx
+					input[7] = tmpFileTime[1].substring(1);
+				}
+			}
+			scan.close();			
+		    
+			// appsFolder = /home/martin/Documents/TFG_I/apps
+			Path cPath = Paths.get(this.appsPath + "/" + input[0] + "/" + input[0]+ ".c");
+			Path TSPath = Paths.get(this.appsPath + "/" + input[0] + "/tests_" + input[0] + ".txt");
+			try {
+				input[8] = Long.toString(Files.size(TSPath)); // TAMANO TS
+				input[9] = Long.toString(Files.lines(cPath).count()); // NUMERO DE LINEAS
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			inputs.add(input);
+		}
+		
+		return inputs;
+	}
 
 	public static void main(String[] args) {
 		FileParser fp = null;

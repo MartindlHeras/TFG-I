@@ -18,7 +18,7 @@ import org.nd4j.linalg.factory.Nd4j;
 public class NetworkTester {
 	
 	private static final String DATASET_ROOT_FOLDER = "/home/martin/Documents/TFG_I/naos/";
-	private static final int N_SAMPLES_TESTING = 5;
+	private static final int N_SAMPLES_TESTING = 14;
 	private static final int N_INPUTS = 9;
 	private static final int N_OUTCOMES = 320;
 	
