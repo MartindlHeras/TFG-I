@@ -15,22 +15,16 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 
 ---
 
-### Preguntas
-
-### Cositas
- 1. apps/ - Adaptar más aplicaciones
- 2. DB - Llenar base de datos
- 3. Modificación de la función predict de naos
- 4. Probar a predecir algo
-
 ### ToDo
- - [ ] Un par de aplicaciones más adaptadas.
- - [ ] Llenar la base de datos
+ - [x] Tabla latex de las cosas (completar la del readme)
+ - [x] Modificar autotest para eliminar los cosos esos
+ - [x] En vez de compilar con javac exportar a .jar
  - [ ] Mirar repositorio KANN
+ - [ ] mutate.sh -> mutate.java
  - [ ] Mirar si con otra función final se puede hacer lo de las 11 salidas (SOFTMAX)
 
 ### Mid term
- - [ ] Cambiar n 2 a n 3 en las ejecuciones del mpirun (después)
+ - [ ] Cambiar n 2 a n 3 en las ejecuciones del mpirun
  - [ ] Dividir database en training y testing
  - [ ] Añadir al sistema [complejidad ciclomatica](https://github.com/ideadapt/metriculator)
 

@@ -27,18 +27,25 @@ Es una aplicación para el uso de redes neuronales, la verdad que mola un monton
 
 #### Apps Table
 
-| S (< 100) | M (< 1000) | L (> 1000) |
-| ----------- | ----------- | ----------- |
-| [add](https://github.com/MartindlHeras/TFG_I/edit/main/apps/add) | [mergeSort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/mergeSort) | [parg](https://github.com/MartindlHeras/TFG_I/edit/main/apps/parg) |
-| [anagram](https://github.com/MartindlHeras/TFG_I/edit/main/apps/anagram) | [http](https://github.com/MartindlHeras/TFG_I/edit/main/apps/http) | [bzip2](https://github.com/MartindlHeras/TFG_I/edit/main/apps/bzip2) |
-| [genPassword](https://github.com/MartindlHeras/TFG_I/edit/main/apps/genPassword) | [beaufort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/beaufort) | [cjson](https://github.com/MartindlHeras/TFG_I/edit/main/apps/cjson) |
-| [massive](https://github.com/MartindlHeras/TFG_I/edit/main/apps/massive) | [kann](https://github.com/MartindlHeras/TFG_I/edit/main/apps/kann) |  |
-| [primes](https://github.com/MartindlHeras/TFG_I/edit/main/apps/primes) |  |  |
-| [transpose](https://github.com/MartindlHeras/TFG_I/edit/main/apps/transpose) |  |  |
-| [squareMatrix](https://github.com/MartindlHeras/TFG_I/edit/main/apps/squareMatrix) |  |  |
-| [gcd](https://github.com/MartindlHeras/TFG_I/edit/main/apps/gcd) |  |  |
-| [factorial](https://github.com/MartindlHeras/TFG_I/edit/main/apps/factorial) |  |  |
-| [dictionaryOrder](https://github.com/MartindlHeras/TFG_I/edit/main/apps/dictionaryOrder) |  |  |
+| app | lines | mutants | description |
+| ----------- | ----------- | ----------- | ----------- |
+| [add](https://github.com/MartindlHeras/TFG_I/edit/main/apps/add) | 13 | 11 | suma dos números |
+| [massive](https://github.com/MartindlHeras/TFG_I/edit/main/apps/massive) | 13 | 48 | realiza el número pasado como argumento elevado a 5 iteraciones |
+| [factorial](https://github.com/MartindlHeras/TFG_I/edit/main/apps/factorial) | 18 | 30 | calcula el factorial del número pasado |
+| [gcd](https://github.com/MartindlHeras/TFG_I/edit/main/apps/gcd) | 19 | 64 | calcula el mcd de los números pasados |
+| [dictionaryOrder](https://github.com/MartindlHeras/TFG_I/edit/main/apps/dictionaryOrder) | 29 | 70 | ordena las palabras pasadas alfabéticamente |
+| [primes](https://github.com/MartindlHeras/TFG_I/edit/main/apps/primes) | 30 | 67 | comprueba si el número pasado es primo |
+| [anagram](https://github.com/MartindlHeras/TFG_I/edit/main/apps/anagram) | 36 | 59 | comprueba si dos cadenas son anagramas entre sí |
+| [transpose](https://github.com/MartindlHeras/TFG_I/edit/main/apps/transpose) | 39 | 148 | traspone la matriz pasada |
+| [genPassword](https://github.com/MartindlHeras/TFG_I/edit/main/apps/genPassword) | 63 | 48 | genera una contraseña aleatoria |
+| [squareMatrix](https://github.com/MartindlHeras/TFG_I/edit/main/apps/squareMatrix) | 71 | 181 | eleva al cuadrado la matriz pasada |
+| [mergeSort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/mergeSort) | 130 | 218 | algoritmo mergesort |
+| [beaufort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/beaufort) | 445 | | cifrado beaufort |
+| [http](https://github.com/MartindlHeras/TFG_I/edit/main/apps/http) | 708 | | envía una petición HTTP |
+| [cjson](https://github.com/MartindlHeras/TFG_I/edit/main/apps/cjson) | 1031 | | |
+| [parg](https://github.com/MartindlHeras/TFG_I/edit/main/apps/parg) | 2518 | 2508 |  |
+| [bzip2](https://github.com/MartindlHeras/TFG_I/edit/main/apps/bzip2) | 6998 | | comprime un fichero con el algoritmo bzip2 |
+| [kann](https://github.com/MartindlHeras/TFG_I/edit/main/apps/kann) | | | |
 
 #### C Programs
  - [Programas en C en un archivo](https://github.com/nothings/single_file_libs)

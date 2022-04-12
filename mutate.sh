@@ -14,6 +14,7 @@ else
     cp apps/$1/$1.c $MUTOMVO_HOME/apps
     mkdir $MUTOMVO_HOME/project_$1
     cp apps/$1/tests_$1.txt $MUTOMVO_HOME/project_$1
+    cp comp_remove.sh $MUTOMVO_HOME/project_$1
 
     echo "########################### RUNNING MUTOMVO... ############################"
     cd $MUTOMVO_HOME
@@ -32,8 +33,9 @@ else
     mkdir $MALONE_HOME/Environments/autotest/$1
 
     cd naos/src/main/java/naos/workbench
-    javac Autotest.java
-    java Autotest.java $1 $(ls $MUTOMVO_HOME/project_$1/mutants/ | wc -l) $(sed -n "$=" ../../../../../../apps/$1/tests_$1.txt) $MUTOMVO_HOME $MALONE_HOME
+    # javac Autotest.java
+    # java Autotest.java $1 $(ls $MUTOMVO_HOME/project_$1/mutants/ | wc -l) $(sed -n "$=" ../../../../../../apps/$1/tests_$1.txt) $MUTOMVO_HOME $MALONE_HOME
+    java -jar Autotest.jar $1 $(ls $MUTOMVO_HOME/project_$1/mutants/ | wc -l) $(sed -n "$=" ../../../../../../apps/$1/tests_$1.txt) $MUTOMVO_HOME $MALONE_HOME
     cd -
 
     echo "################################## DONE! ##################################"
