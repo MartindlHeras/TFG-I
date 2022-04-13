@@ -8,7 +8,10 @@
 ./mutate.sh gcd
 ./mutate.sh genPassword
 # ./mutate.sh http
-# ./mutate.sh kann
+./mutate.sh insertSort #insertSort [[tests_insertSort.txt]]
+./mutate.sh bubbleSort #bubbleSort [[tests_bubbleSort.txt]]
+./mutate.sh selectSort #selectSort [[tests_selectSort.txt]]
+./mutate.sh quickSort #quickSort [[tests_quickSort.txt]]
 ./mutate.sh massive
 ./mutate.sh mergeSort
 ./mutate.sh parg

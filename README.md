@@ -15,11 +15,14 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 
 ---
 
+### Cositas
+ - El problema con KANN es básicamente que estás creando modelos que luego van a ser utilizados, necesitamos la base de datos (que en este caso es MNIST por tanto es fácil) y luego el mismo modelo creado para ejecutar las demás cosas por lo que veo chungo el hacer un testFile válido para Malone
+
 ### ToDo
  - [x] Tabla latex de las cosas (completar la del readme)
  - [x] Modificar autotest para eliminar los cosos esos
  - [x] En vez de compilar con javac exportar a .jar
- - [ ] Mirar repositorio KANN
+ - [x] Mirar repositorio KANN (ae, mlp, mnist-cnn, rnn-bit, textgen, vae)
  - [ ] mutate.sh -> mutate.java
  - [ ] Mirar si con otra función final se puede hacer lo de las 11 salidas (SOFTMAX)
 

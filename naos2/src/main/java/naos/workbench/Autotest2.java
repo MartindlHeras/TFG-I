@@ -66,7 +66,6 @@ public class Autotest2 {
 						+ "\nMutantGenerationEnabled=0");
 				fw.close();
 				
-				//TODO: Crear el archivo de borrado de compilacion
 				for (int j = 2; j <= 5; j++) {
 					for (int k = 1; k <= 3 ; k++) {
 						
