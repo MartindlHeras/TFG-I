@@ -1,0 +1,33 @@
+beaufort usage: beaufort [-hV] [options]
+
+    options:
+
+    --encrypt           encrypt stdin stream
+    --decrypt           decrypt stdin stream
+    --key=[key]         cipher key (required)
+    --alphabet=[alpha]  cipher tableau alphabet (Default: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
+    --text=[text]       text to either encrypt or decrypt
+
+-h
+-V
+-h -V
+-Vh
+-HV
+-HhhhH
+-hvhvhv
+-encrypt
+--encrypt --key=panda --text='ay mi madre'
+--encrypt --key=panda --text=ay mi madre
+--decrypt --key=panda --text=''Fc 1v oFxwz''
+--decrypt --key=panda --text='Fc 1v oFxwz'
+--encrypt --key=panda --text='ay mi madre' --alphabet='asdfghjkl'
+-afafaff
+-v
+-e
+--decrypt --encrypt --decrypt --key=panda --text='Fc 1v oFxwz'
+--key=panda --text='Fc 1v oFxwz'
+--key=panda -text='Fc 1v oFxwz'
+--key=pandatext='Fc 1v oFxwz'
+--alphabet=panda --key='Fc 1v oFxwz' --text=adsflk
+--key=panda --encrypt --text='ay mi madre'
+--key=panda --ecrypt --text='ay mi madre

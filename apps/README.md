@@ -2,7 +2,6 @@
 
 #### Complete
  - [ ] http (mutants and tests)
- - [ ] beaufort (mutants and tests)
  - [ ] bzip2 (all)
  - [ ] cjson (README, mutants and tests)
 
@@ -40,7 +39,7 @@
 | [genPassword](https://github.com/MartindlHeras/TFG_I/edit/main/apps/genPassword) | 63 | 48 | genera una contraseña aleatoria |
 | [squareMatrix](https://github.com/MartindlHeras/TFG_I/edit/main/apps/squareMatrix) | 71 | 181 | eleva al cuadrado la matriz pasada |
 | [mergeSort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/mergeSort) | 130 | 218 | algoritmo mergesort |
-| [beaufort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/beaufort) | 445 | | cifrado beaufort |
+| [beaufort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/beaufort) | 445 | 481 | cifrado beaufort |
 | [http](https://github.com/MartindlHeras/TFG_I/edit/main/apps/http) | 708 | | envía una petición HTTP |
 | [cjson](https://github.com/MartindlHeras/TFG_I/edit/main/apps/cjson) | 1031 | | |
 | [parg](https://github.com/MartindlHeras/TFG_I/edit/main/apps/parg) | 2518 | 2508 |  |

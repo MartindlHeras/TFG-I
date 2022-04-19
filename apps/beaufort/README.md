@@ -4,10 +4,18 @@
  - output: 
      - print: message 
      - return: 0
- - #mutants: 11
- - #lines: 13
- - test format:  ??
+ - #mutants: 481
+ - #lines: 445
+ - test format: beaufort usage: beaufort [-hV] [options]
+
+    options:
+
+    --encrypt           encrypt stdin stream
+    --decrypt           decrypt stdin stream
+    --key=[key]         cipher key (required)
+    --alphabet=[alpha]  cipher tableau alphabet (Default: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
+    --text=[text]       text to either encrypt or decrypt
 
 
-echo 'ay mi madre' | ./tests --encrypt --key=panda
-echo echo 'Fc 1v oFxwz' | ./tests --decrypt --key=panda
+echo 'ay mi madre' | ./beaufort --encrypt --key=panda
+echo echo 'Fc 1v oFxwz' | ./beaufort --decrypt --key=panda

@@ -1,6 +1,6 @@
 ./mutate.sh add
 ./mutate.sh anagram
-# ./mutate.sh beaufort
+./mutate.sh beaufort #beaufort [[tests_beaufort.txt]]
 # ./mutate.sh bzip2
 # ./mutate.sh cjson
 ./mutate.sh dictionaryOrder

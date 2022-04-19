@@ -291,8 +291,9 @@ help () {
   fprintf(stderr, "\n  --decrypt           decrypt stdin stream");
   fprintf(stderr, "\n  --key=[key]         cipher key (required)");
   fprintf(stderr,
-      "\n  --alphabet=[alpha]  cipher tableau alphabet (Default: '%s')\n",
+      "\n  --alphabet=[alpha]  cipher tableau alphabet (Default: '%s')",
       BEAUFORT_ALPHA);
+  fprintf(stderr, "\n  --text=[text]       text to either encrypt or decrypt (required)\n");
   fprintf(stderr, "\n");
 }
 
@@ -341,6 +342,7 @@ main (int argc, char **argv) {
   char *buf = NULL;
   char *alpha = NULL;
   char *key = NULL;
+  char *text = NULL;
   char *out = NULL;
   char **mat = NULL;
   int op = NO_OP;
@@ -382,6 +384,12 @@ main (int argc, char **argv) {
               for (i = 0; i < 9; ++i) tmp = *opt++;
               alpha = opt;
             }
+
+            if (0 == strncmp(opt, "text=", 5)) {
+              for (i = 0; i < 5; ++i) tmp = *opt++;
+              text = opt;
+            }
+
             break;
 
           default:
@@ -408,12 +416,12 @@ main (int argc, char **argv) {
   }
 
 #define OP(name) {                               \
-  buf = read_stdin();                            \
+  buf = text;                            \
   if (NULL == buf) { return 1; }                 \
   out = beaufort_ ## name(buf, key, mat);        \
   printf("%s\n", out);                           \
   do {                                           \
-    buf = read_stdin();                          \
+    buf = text++;                          \
     if (NULL == buf) { break; }                  \
     out = beaufort_ ## name(buf, key, mat);      \
     printf("%s\n", out);                         \
@@ -422,16 +430,14 @@ main (int argc, char **argv) {
 
 switch (op) {
   case ENCRYPT_OP:
-    if (1 == isatty(0)) { return 1; }
-    else if (ferror(stdin)) { return 1; }
+    if (!text) { return 1; }
     else { OP(encrypt); }
 
     printf("Encrypt\n");
     return 0;
 
   case DECRYPT_OP:
-    if (1 == isatty(0)) { return 1; }
-    else if (ferror(stdin)) { return 1; }
+    if (!text) { return 1; }
     else { OP(decrypt); }
     return 0;
 
