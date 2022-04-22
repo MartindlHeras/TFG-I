@@ -62,7 +62,7 @@ public class Autotest {
 						+ "\nMutantGenerationEnabled=0");
 				fw.close();
 				for (int j = 2; j <= 5; j++) {
-					for (int k = 1; k <= 1 ; k++) {
+					for (int k = 1; k <= 3 ; k++) {
 						testsW.write("mpirun -n " + (int) Math.pow(2, k) + " ./malone -e " + "autotest/" + args[0] + "/" + fileName + " -a " + j + "\n");
 					}
 				}
