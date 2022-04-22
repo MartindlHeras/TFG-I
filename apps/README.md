@@ -1,9 +1,9 @@
 ## Applications
 
 #### Complete
- - [ ] http (mutants and tests)
- - [ ] bzip2 (all)
- - [ ] cjson (README, mutants and tests)
+ - [x] http (mutants and tests)
+ - [x] bzip2 (all)
+ - [x] cjson (mutants and tests) -> se crea casi a mano los objetos así que no me voy a poner a dárselo mascado (no procesa bien CJSON)
 
  Mutants add automatically when executed.
 
@@ -41,7 +41,7 @@
 | [mergeSort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/mergeSort) | 130 | 218 | algoritmo mergesort |
 | [beaufort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/beaufort) | 445 | 481 | cifrado beaufort |
 | [http](https://github.com/MartindlHeras/TFG_I/edit/main/apps/http) | 708 | | envía una petición HTTP |
-| [cjson](https://github.com/MartindlHeras/TFG_I/edit/main/apps/cjson) | 1031 | | |
+| [cjson](https://github.com/MartindlHeras/TFG_I/edit/main/apps/cjson) | 1037 | | parsea objetos tipo JSON |
 | [parg](https://github.com/MartindlHeras/TFG_I/edit/main/apps/parg) | 2518 | 2508 |  |
 | [rnn-bit](https://github.com/MartindlHeras/TFG_I/edit/main/apps/rnn-bit) | 4053 | | recurrent neural network for arithmetic |
 | [textgen](https://github.com/MartindlHeras/TFG_I/edit/main/apps/textgen) | 4223 | | text generator |
