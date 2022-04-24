@@ -18,14 +18,16 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 ### Cositas
  - El problema con KANN es básicamente que estás creando modelos que luego van a ser utilizados, necesitamos la base de datos (que en este caso es MNIST por tanto es fácil) y luego el mismo modelo creado para ejecutar las demás cosas por lo que veo chungo el hacer un testFile válido para Malone
  - El problema con cjson es que los ejemplos que pone los crea a mano dentro del .c por lo que no habría que cambiar básicamente la mitad del código para hacerlo funcionar como queremos
- - Bzip2 no produce nada como salida por lo que no sé qué puede pillar malone para evaluar
+ - bzip2 no produce nada como salida por lo que no sé qué puede pillar malone para evaluar
+ - libpqueue tiene el mismo fallo, el ejemplo del .c está hecho a mano, por lo que habría que cambiar todo el fichero
+ - avl la misma historia
 
 ### ToDo
  - [x] Tabla latex de las cosas (completar la del readme)
  - [x] Modificar autotest para eliminar los cosos esos
  - [x] En vez de compilar con javac exportar a .jar
  - [x] Mirar repositorio KANN (ae, mlp, mnist-cnn, rnn-bit, textgen, vae)
- - [ ] mutate.sh -> mutate.java
+ - [x] mutate.sh -> mutate.java
  - [ ] Mirar si con otra función final se puede hacer lo de las 11 salidas (SOFTMAX)
 
 ### Mid term
