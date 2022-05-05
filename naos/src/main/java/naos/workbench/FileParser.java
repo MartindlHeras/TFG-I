@@ -27,7 +27,6 @@ public class FileParser {
 	public List<String[]> getInputs() throws FileNotFoundException {
 		List<String[]> inputs = new ArrayList<String[]>();
 		
-//		input -> [nombre,mutantes,tests,cores,tiempo,tiempo original,tiempo mutantes,mutation score,algoritmo,optimizaciones]
 		// input -> [nombre,mutantes,tests,cores,tiempo,tiempo original,tiempo mutantes,mutation score,lineas c,size TS,algoritmo,optimizaciones]
 				
 		for (final File fileName : this.f.listFiles()) {
@@ -41,6 +40,8 @@ public class FileParser {
 			}
 			input[10] = parts[9]; // Algoritmo inicial
 			input[11] = parts[10]; // Optimizaciones
+			
+			// Comprobamos si hemos pasado ya por ese caso de app mutantes tests y cores, si hemos pasado, pasamos al siguiente
 			for (int i = 0; i < inputs.size(); i++) {
 				if (input[0].equals(inputs.get(i)[0]) && input[1].equals(inputs.get(i)[1]) && input[2].equals(inputs.get(i)[2]) && input[3].equals(inputs.get(i)[3])) { // Si ya he pasado por esas especificaciones
 					flag = true;
@@ -53,6 +54,7 @@ public class FileParser {
 			// Recorre todos los ficheros que coinciden en programa, mutantes, tests y cores
 			for (final File fileEntry : this.f.listFiles()) {
 				String[] tmp = fileEntry.getName().split("_");
+				
 				if (input[0].equals(tmp[5]) && input[1].equals(tmp[6]) && input[2].equals(tmp[7]) && input[3].equals(tmp[8])) {
 					// Si el tiempo del fichero es menor que el que tenemos, actualiza el minimo, algoritmo y optimizaciones
 					File f = new File(this.path + "/" + fileEntry.getName() + "/malone_overview.txt");
@@ -105,7 +107,6 @@ public class FileParser {
 	public List<String[]> getFullInputs() throws FileNotFoundException {
 		List<String[]> inputs = new ArrayList<String[]>();
 		
-//		input -> [nombre,mutantes,tests,cores,tiempo,tiempo original,tiempo mutantes,mutation score,algoritmo,optimizaciones]
 		// input -> [nombre,mutantes,tests,cores,tiempo,tiempo original,tiempo mutantes,mutation score,lineas c,size TS,algoritmo,optimizaciones]
 				
 		for (final File fileName : this.f.listFiles()) {

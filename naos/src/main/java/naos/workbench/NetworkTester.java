@@ -17,12 +17,11 @@ import org.nd4j.linalg.factory.Nd4j;
 
 public class NetworkTester {
 	
-	private static final String DATASET_ROOT_FOLDER = "/home/martin/Documents/TFG_I/naos/";
-	private static final int N_SAMPLES_TESTING = 14;
-	private static final int N_INPUTS = 9;
+	private static final String DATASET_ROOT_FOLDER = "/home/martin/Documents/TFG_I/naos2/";
+	private static final int N_SAMPLES_TESTING = 84;
+	private static final int N_INPUTS = 6; // 9 si meto los que faltan
 	private static final int N_OUTCOMES = 320;
 	
-	// IMPORTANTE ADAPTAR AL PATH DE TRAINING Y TESTS QUE NO HE HECHO
 	private static DataSetIterator getDataSetIterator(String folderPath, int nSamples) throws IOException {
 
 		INDArray input = Nd4j.create(new int[]{ nSamples, N_INPUTS });
@@ -38,17 +37,15 @@ public class NetworkTester {
 						Integer.parseInt(data[1].substring(1)), // mutants
 						Integer.parseInt(data[2].substring(1)), // tests
 						Integer.parseInt(data[3].substring(1)), // cores
-						Integer.parseInt(data[4]), // tiempo total
+//						Integer.parseInt(data[4]), // tiempo total
 						Integer.parseInt(data[5]), // tiempo original
-						Integer.parseInt(data[6]), // tiempo mutantes
-						Float.parseFloat(data[7]), // mutation score
+//						Integer.parseInt(data[6]), // tiempo mutantes
+//						Float.parseFloat(data[7]), // mutation score
 						Integer.parseInt(data[8]), // lineas .c
 						Integer.parseInt(data[9]), // size TS
 						} ));
 				output.putRow(n, crearSalida(Integer.parseInt(data[10].substring(1)), data[11]));
 				n++;
-				System.out.println("input: " + input);
-				System.out.println("output: " + output);
 			}
 			myReader.close();
 	    } catch (FileNotFoundException e) {
@@ -67,7 +64,7 @@ public class NetworkTester {
 		//Shuffle its content randomly
 		Collections.shuffle( listDataSet, new Random(System.currentTimeMillis()) );
 		//Set a batch size
-		int batchSize = 1;
+		int batchSize = 21;
 		//Build and return a data-set iterator that the network can use
 		DataSetIterator dsi = new ListDataSetIterator<DataSet>( listDataSet, batchSize );
 		return dsi;

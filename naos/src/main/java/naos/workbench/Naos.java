@@ -15,7 +15,8 @@ import org.nd4j.linalg.factory.Nd4j;
 
 public class Naos {
 	
-	private static final int N_INPUTS = 9;
+//	private static final int N_INPUTS = 9;
+	private static final int N_INPUTS = 6;
 	
 	private static List<String[]> fill(String fullFolderName, String appsFolder) {
 		FileParser fp = null;
@@ -77,10 +78,10 @@ public class Naos {
 				 									Integer.parseInt(inputs.get(i)[1].substring(1)), 
 				 									Integer.parseInt(inputs.get(i)[2].substring(1)), 
 				 									Integer.parseInt(inputs.get(i)[3].substring(1)),
-				 									Integer.parseInt(inputs.get(i)[4]),
+//				 									Integer.parseInt(inputs.get(i)[4]),
 				 									Integer.parseInt(inputs.get(i)[5]),
-				 									Integer.parseInt(inputs.get(i)[6]),
-				 									Float.parseFloat(inputs.get(i)[7]),
+//				 									Integer.parseInt(inputs.get(i)[6]),
+//				 									Float.parseFloat(inputs.get(i)[7]),
 				 									Integer.parseInt(inputs.get(i)[8]),
 				 									Integer.parseInt(inputs.get(i)[9])
 				 									}));
@@ -137,10 +138,10 @@ public class Naos {
 			 									Integer.parseInt(nMutants), 
 			 									Integer.parseInt(nTests), 
 			 									Integer.parseInt(nCores),
-			 									Integer.parseInt(totalTime),
+//			 									Integer.parseInt(totalTime),
 			 									Integer.parseInt(originalTime),
-			 									Integer.parseInt(mutantsTime),
-			 									Float.parseFloat(mutationScore),
+//			 									Integer.parseInt(mutantsTime),
+//			 									Float.parseFloat(mutationScore),
 			 									Integer.parseInt(TSSize),
 			 									Integer.parseInt(lines)
 			 									}));
@@ -150,8 +151,10 @@ public class Naos {
 	public static void main(String[] args) {
 		if (args.length == 0) {
 			System.out.println("Wrong command input, please select an option:");
-			System.out.println("-t <fullFolderName> to train the Neural Network");
-			System.out.println("-p <fileName> <nMutants> <nTests> <nCores> <totalTime> <originalTime> <mutantsTime> <mutationScore> <TSSize> <lines> to get the optimal execution mode");
+			System.out.println("-t <fullFolderName> <appsFolder> to train the Neural Network");
+			System.out.println("-f <fullFolderName> <appsFolder> to fill the database");
+//			System.out.println("-p <fileName> <nMutants> <nTests> <nCores> <totalTime> <originalTime> <mutantsTime> <mutationScore> <TSSize> <lines> to get the optimal execution mode");
+			System.out.println("-p <fileName> <nMutants> <nTests> <nCores> <originalTime> <TSSize> <lines> to get the optimal execution mode");
 			return;
 		}
 		if (args[0].equals("-t")) {
@@ -159,7 +162,8 @@ public class Naos {
 			System.out.println("ANN trained successfully");
 		}
 		else if (args[0].equals("-p")) {
-			System.out.println("The best algorithm and optimizations for this situation are: " + predict(args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10]));
+			System.out.println(predict(args[1], args[2], args[3], args[4], null, args[5], null, null, args[6], args[7]));
+//			System.out.println("The best algorithm and optimizations for this situation are: " + predict(args[1], args[2], args[3], args[4], null, args[5], null, null, args[6], args[7]));
 		}
 		else if (args[0].equals("-f")) {
 			fill(args[1], args[2]);
@@ -168,7 +172,8 @@ public class Naos {
 			System.out.println("Wrong command input, please select an option:");
 			System.out.println("-t <fullFolderName> <appsFolder> to train the Neural Network");
 			System.out.println("-f <fullFolderName> <appsFolder> to fill the database");
-			System.out.println("-p <fileName> <nMutants> <nTests> <nCores> <totalTime> <originalTime> <mutantsTime> <mutationScore> <TSSize> <lines> to get the optimal execution mode");
+//			System.out.println("-p <fileName> <nMutants> <nTests> <nCores> <totalTime> <originalTime> <mutantsTime> <mutationScore> <TSSize> <lines> to get the optimal execution mode");
+			System.out.println("-p <fileName> <nMutants> <nTests> <nCores> <originalTime> <TSSize> <lines> to get the optimal execution mode");
 		}
 		return;
 	}

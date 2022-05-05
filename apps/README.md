@@ -1,13 +1,5 @@
 ## Applications
 
-#### Complete
- - [x] http (mutants and tests)
- - [x] bzip2 (all)
- - [x] cjson (mutants and tests) -> se crea casi a mano los objetos así que no me voy a poner a dárselo mascado (no procesa bien CJSON)
-
- Mutants add automatically when executed.
-
-
 #### Overview
  - Fuentes.txt (mejor en el README)
      - Web: descripción de donde sacar aplicación

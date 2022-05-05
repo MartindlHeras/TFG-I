@@ -5,30 +5,29 @@ import java.io.IOException;
 
 public class Autotest {
 
-	public static void main(String[] args) {
-		if (args.length < 3) {
-			System.out.println("Autotest.java <fileName> <mutants> <tests> <$MUTOMVO_HOME> <$MALONE_HOME> to generate autotests");
-			return;
-		}
+	public void generate(String appName, String mutants, String tests, String mutomvo, String malone) {
+		boolean bForceCleaningComp;
+		
+		bForceCleaningComp = true;
+		System.out.println("Autotest - End");
 		try {
-			FileWriter testsW = new FileWriter(args[4] + "/Environments/autotest/" + args[0] + "/exec_" + args[0] + ".sh");
+			FileWriter testsW = new FileWriter(malone + "/Environments/autotest/" + appName + "/exec_" + appName + ".sh");
+			System.out.println("Creating autotests files...");
 			for (int i = 0; i < 64; i++) {
 				String bOpt = String.format("%6s", Integer.toBinaryString(i)).replaceAll(" ", "0");
-				String fileName = "test_autotest_" + args[0] + "_stand_" + bOpt + "_m" + args[1] + "_t" + args[2] + ".ini";
-				System.out.println("Creating file: " + fileName + "...");
-				String fullFileName = args[4] + "/Environments/autotest/" + args[0] + "/" + fileName;
-//				FileWriter fw = new FileWriter(args[4] + "/Environments/autotest/" + fileName);
+				String fileName = "test_autotest_" + appName + "_stand_" + bOpt + "_m" + mutants + "_t" + tests + ".ini";
+				String fullFileName = malone + "/Environments/autotest/" + appName + "/" + fileName;
 				FileWriter fw = new FileWriter(fullFileName);
-				fw.write("[general] "
-						+ "\nFrameworkPath=" + args[3] + ""
-						+ "\nApplicationPath=" + args[3] + "/apps"
-						+ "\nMutantPath=" + args[3] + "/project_" + args[0] + "/mutants"
-						+ "\nApplicationName=" + args[0] + ""
-						+ "\nExecutionLineOriginal=[[ORIGINAL_PATH]]/"
+				fw.write("[general]"
+						+ "\nFrameworkPath=" + mutomvo + ""
+						+ "\nApplicationPath=" + mutomvo + "/apps"
+						+ "\nMutantPath=" + mutomvo + "/project_" + appName + "/mutants"
+						+ "\nApplicationName=" + appName + ""
+						+ "\nExecutionLineOriginal=[[MUTANTS_PATH]]/0/"
 						+ "\nExecutionLineMutants=[[MUTANTS_PATH]]/[[INDEX_MUTANT]]/"
-						+ "\nGenerationLineMutants=cd " + args[3] + "/bin && java -jar mutomvo.jar -p " + args[0] + " -g"
-						+ "\nTotalTests=" + args[2] + ""
-						+ "\nTotalMutants=" + args[1] + ""
+						+ "\nGenerationLineMutants=cd " + mutomvo + "/bin && java -jar mutomvo.jar -p " + appName + " -g"
+						+ "\nTotalTests=" + tests + ""
+						+ "\nTotalMutants=" + mutants + ""
 						+ "\nStartingMutant=1"
 						+ "\n\n[optimizations]"
 						+ "\nDistributeOriginal=" + bOpt.charAt(0) + ""
@@ -40,11 +39,11 @@ public class Autotest {
 						+ "\nMultipleCoordinators=0"
 						+ "\n\n[standalone]"
 						+ "\nStandalone=1"
-						+ "\nTestSuiteFile=" + args[3] + "/project_" + args[0] + "/testsFile.txt"
+						+ "\nTestSuiteFile=" + mutomvo + "/project_" + appName + "/testsFile.txt"
 						+ "\n\n[compilation]"
 						+ "\nCompilationEnabled=1"
-						+ "\nCompilationLineOriginal=gcc -O3 -lm -Wall [[ORIGINAL_PATH]]/" + args[0] + ".c -o [[ORIGINAL_PATH]]/" + args[0] + " "
-						+ "\nCompilationLineMutants=gcc -O3 -lm -Wall [[MUTANTS_PATH]]/[[INDEX_MUTANT]]/" + args[0] + ".c -o [[MUTANTS_PATH]]/[[INDEX_MUTANT]]/" + args[0] + ""
+						+ "\nCompilationLineOriginal=gcc -O3 -lm -Wall [[ORIGINAL_PATH]]/" + appName + ".c -o [[MUTANTS_PATH]]/0/" + appName + ""
+						+ "\nCompilationLineMutants=gcc -O3 -lm -Wall [[MUTANTS_PATH]]/[[INDEX_MUTANT]]/" + appName + ".c -o [[MUTANTS_PATH]]/[[INDEX_MUTANT]]/" + appName + ""
 						+ "\nCompilationNumWorkers=3"
 						+ "\nCompilationWithScript=0"
 						+ "\nCompilationScript="
@@ -61,9 +60,13 @@ public class Autotest {
 						+ "\nMarkerToken="
 						+ "\nMutantGenerationEnabled=0");
 				fw.close();
+				
 				for (int j = 2; j <= 5; j++) {
-					for (int k = 1; k <= 1 ; k++) {
-						testsW.write("mpirun -n " + (int) Math.pow(2, k) + " ./malone -e " + "autotest/" + args[0] + "/" + fileName + " -a " + j + "\n");
+					for (int k = 1; k <= 3 ; k++) {
+						
+						if(bForceCleaningComp)
+							testsW.write("sh " + mutomvo + "/project_" + appName + "/comp_remove.sh\n");
+						testsW.write("mpirun -n " + (int) Math.pow(2, k) + " ./malone -e " + "autotest/" + appName + "/" + fileName + " -a " + j + "\n");
 					}
 				}
 				}
@@ -73,7 +76,16 @@ public class Autotest {
 			System.out.println("Error writing files");
 			e.printStackTrace();
 		}
-
+		System.out.println("Autotest - End");
+	}
+	
+	public static void main(String[] args) {
+		Autotest autotest = new Autotest();
+		if (args.length < 3) {
+			System.out.println("Autotest.java <fileName> <mutants> <tests> <$MUTOMVO_HOME> <$MALONE_HOME> to generate autotests");
+			return;
+		}
+		autotest.generate(args[0], args[1], args[2], args[3], args[4]);
 	}
 
 }
