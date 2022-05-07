@@ -18,8 +18,8 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 ### ToDo
  - [x] Mutate.java: zip + no generar mutantes si existen
  - [x] Eliminar duplicados de Autotest y Naos
- - [ ] Tweak hyperparameters (learning rate and training epochs)
- - [ ] Mirar CCAN
+ - [x] Tweak hyperparameters (learning rate and training epochs) 26/320* (26/256) me tienen que aparecer 294 excluidas
+ - [ ] Mirar CCAN + algoritmos de búsqueda
  - [ ] GUI de mutate + naos + autotest
  - [ ] Generar mutantes en mutomvo por línea de comandos
 

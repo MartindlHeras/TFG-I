@@ -4,7 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Autotest {
-
+	
 	public void generate(String appName, String mutants, String tests, String mutomvo, String malone) {
 		boolean bForceCleaningComp;
 		

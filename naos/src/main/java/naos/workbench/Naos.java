@@ -15,8 +15,7 @@ import org.nd4j.linalg.factory.Nd4j;
 
 public class Naos {
 	
-//	private static final int N_INPUTS = 9;
-	private static final int N_INPUTS = 6;
+	private static final int N_INPUTS = 6; // 9 si meto los que faltan
 	
 	private static List<String[]> fill(String fullFolderName, String appsFolder) {
 		FileParser fp = null;
@@ -33,13 +32,13 @@ public class Naos {
 		}
 		
 		try {
-			FileWriter fw = new FileWriter("db.txt", true);
+			FileWriter fw = new FileWriter("/home/martin/Documents/TFG_I/data/training/db.txt", true);
 			for (int i = 0; i < inputs.size(); i++) {
 				fw.append(Arrays.toString(inputs.get(i)).substring(1, Arrays.toString(inputs.get(i)).length()-1) + "\n");
 			}
 			fw.close();
 			System.out.println("DB filled!");
-			fw = new FileWriter("fulldb.csv", true);
+			fw = new FileWriter("/home/martin/Documents/TFG_I/data/fulldb.csv", true);
 			fw.append("file name, mutants, tests, cores, total time, original time, mutants time, mutation score, TS size, lines, algorithm, optimizations\n");
 			for (int i = 0; i < fullInputs.size(); i++) {
 				fw.append(Arrays.toString(fullInputs.get(i)).substring(1, Arrays.toString(fullInputs.get(i)).length()-1) + "\n");
@@ -69,7 +68,7 @@ public class Naos {
 		}
 		
 		// Esencialmente crear un dataset como en NetworkTraining
-
+		
 		INDArray input = Nd4j.create(new int[]{ inputs.size(), N_INPUTS });
 		INDArray output = Nd4j.create(new int[]{ inputs.size(), 320 });
 		for (int i = 0; i < inputs.size(); i++) {
@@ -147,7 +146,7 @@ public class Naos {
 			 									}));
 		return input;
 	}
-
+	
 	public static void main(String[] args) {
 		if (args.length == 0) {
 			System.out.println("Wrong command input, please select an option:");

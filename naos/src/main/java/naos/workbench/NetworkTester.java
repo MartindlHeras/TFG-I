@@ -48,10 +48,10 @@ public class NetworkTester {
 				n++;
 			}
 			myReader.close();
-	    } catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
-	    }
+		}
 		// No estoy seguro de si normalizar los datos antes de meterlos, problematico a la hora de entrenar solo con un modelo
 //		int maxMutants = Collections.max(mutants);
 //		int maxTests = Collections.max(tests);
@@ -75,11 +75,11 @@ public class NetworkTester {
 		out[64*(alg-1)+Integer.parseInt(opt,2)] = 1;
 		return Nd4j.createFromArray(out);
 	}
-
+	
 	public static void main(String[] args) {
 		long t0 = System.currentTimeMillis();
 		DataSetIterator testDsi = null;
-
+		
 		System.out.println("Import model....");
 		
 		MultiLayerNetwork model = null;
@@ -98,7 +98,7 @@ public class NetworkTester {
 		System.out.println("Evaluate model....");
 		Evaluation eval = model.evaluate(testDsi);
 		System.out.println(eval.stats());
-
+		
 		long t1 = System.currentTimeMillis();
 		double t = (double)(t1 - t0) / 1000.0;
 		System.out.println("\n\nTotal time: "+t+" seconds");

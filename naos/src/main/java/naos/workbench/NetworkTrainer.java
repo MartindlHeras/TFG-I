@@ -1,6 +1,7 @@
 package naos.workbench;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -21,19 +22,19 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.factory.Nd4j;
-import org.nd4j.linalg.learning.config.Nesterovs;
+import org.nd4j.linalg.learning.config.*;
 import org.nd4j.linalg.lossfunctions.LossFunctions.LossFunction;
 
 public class NetworkTrainer {
 	
 	private static final String DATASET_ROOT_FOLDER = "/home/martin/Documents/TFG_I/data/";
-	private static final int N_SAMPLES_TRAINING = 84;
-	private static final int N_SAMPLES_TESTING = 84;
+	private static final int N_SAMPLES_TRAINING = 87;
+	private static final int N_SAMPLES_TESTING = 87;
 	private static final int N_INPUTS = 6; // 9 si meto los que faltan
 	private static final int N_OUTCOMES = 320;
 	
 	private static DataSetIterator getDataSetIterator(String folderPath, int nSamples) throws IOException {
-
+		
 		INDArray input = Nd4j.create(new int[]{ nSamples, N_INPUTS });
 		INDArray output = Nd4j.create(new int[]{ nSamples, N_OUTCOMES });
 		
@@ -96,14 +97,14 @@ public class NetworkTrainer {
 		
 		
 		int rngSeed = 123;
-		int nEpochs = 4; // Number of training epochs
+		int nEpochs = 250; // Number of training epochs
 
 		System.out.println("Build model....");
 		
 		MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
 		  .seed(rngSeed) //include a random seed for reproducibility
 		  // use stochastic gradient descent as an optimization algorithm
-		  .updater(new Nesterovs(0.006, 0.9))
+		  .updater(new Adam(0.0006))
 		  .l2(1e-4)
 		  .list()
 		  .layer(new DenseLayer.Builder() //create the first, input layer with Xavier initialization
@@ -124,8 +125,8 @@ public class NetworkTrainer {
 		
 		model.init();
 		
-		//print the score with every 10 iteration
-		model.setListeners(new ScoreIterationListener(10));
+		//print the score with every 25 iterations
+		model.setListeners(new ScoreIterationListener(25));
 		System.out.println("Train model....");
 		model.fit(dsi, nEpochs);
 		
@@ -136,6 +137,15 @@ public class NetworkTrainer {
 		System.out.println("Evaluate model....");
 		Evaluation eval = model.evaluate(testDsi);
 		System.out.println(eval.stats());
+		try {
+			FileWriter myWriter = new FileWriter("/home/martin/Documents/TFG_I/out.txt");
+			myWriter.write(eval.stats(false,true));
+			myWriter.close();
+			System.out.println("Successfully wrote to the file.");
+		} catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
 
 		long t1 = System.currentTimeMillis();
 		double t = (double)(t1 - t0) / 1000.0;

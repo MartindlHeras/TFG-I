@@ -23,7 +23,6 @@ public class FileParser {
 		this.f = new File(this.path);
 	}
 	
-	
 	public List<String[]> getInputs() throws FileNotFoundException {
 		List<String[]> inputs = new ArrayList<String[]>();
 		
@@ -88,7 +87,7 @@ public class FileParser {
 						input[11] = tmp[10];
 					}
 				}
-		    }
+			}
 			// appsFolder = /home/martin/Documents/TFG_I/apps
 			Path cPath = Paths.get(this.appsPath + "/" + input[0] + "/" + input[0]+ ".c");
 			Path TSPath = Paths.get(this.appsPath + "/" + input[0] + "/tests_" + input[0] + ".txt");
@@ -138,7 +137,7 @@ public class FileParser {
 				}
 			}
 			scan.close();			
-		    
+			
 			// appsFolder = /home/martin/Documents/TFG_I/apps
 			Path cPath = Paths.get(this.appsPath + "/" + input[0] + "/" + input[0]+ ".c");
 			Path TSPath = Paths.get(this.appsPath + "/" + input[0] + "/tests_" + input[0] + ".txt");
@@ -153,7 +152,7 @@ public class FileParser {
 		
 		return inputs;
 	}
-
+	
 	public static void main(String[] args) {
 		FileParser fp = null;
 		List<String[]> inputs;
