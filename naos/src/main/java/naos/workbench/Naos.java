@@ -1,179 +1,168 @@
 package naos.workbench;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import org.deeplearning4j.datasets.iterator.impl.ListDataSetIterator;
-import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
-import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.dataset.DataSet;
-import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
-import org.nd4j.linalg.factory.Nd4j;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
-public class Naos {
+public class Naos implements ActionListener {
 	
-	private static final int N_INPUTS = 6; // 9 si meto los que faltan
+	private static JFrame exitFrame = new JFrame();
+	private static JPanel exitPanel = new JPanel();
+//	private static JFrame frame;
+//	private static JPanel panel;
+	private static JLabel dataLabel;
+	private static JLabel appLabel;
+	private static JLabel mutomvoLabel;
+	private static JLabel maloneLabel;
+	private static JLabel coresLabel;
+	private static JLabel exitLabel;
 	
-	private static List<String[]> fill(String fullFolderName, String appsFolder) {
-		FileParser fp = null;
-		List<String[]> inputs;
-		List<String[]> fullInputs;
-		System.out.println("Filling DBs...");
-		try {
-			fp = new FileParser(fullFolderName, appsFolder);
-			inputs = fp.getInputs();
-			fullInputs = fp.getFullInputs();
-		} catch (FileNotFoundException e) {
-			System.out.println("Error: " + e + " while handling the file");
-			return null;
-		}
-		
-		try {
-			FileWriter fw = new FileWriter("/home/martin/Documents/TFG_I/data/training/db.txt", true);
-			for (int i = 0; i < inputs.size(); i++) {
-				fw.append(Arrays.toString(inputs.get(i)).substring(1, Arrays.toString(inputs.get(i)).length()-1) + "\n");
-			}
-			fw.close();
-			System.out.println("DB filled!");
-			fw = new FileWriter("/home/martin/Documents/TFG_I/data/fulldb.csv", true);
-			fw.append("file name, mutants, tests, cores, total time, original time, mutants time, mutation score, TS size, lines, algorithm, optimizations\n");
-			for (int i = 0; i < fullInputs.size(); i++) {
-				fw.append(Arrays.toString(fullInputs.get(i)).substring(1, Arrays.toString(fullInputs.get(i)).length()-1) + "\n");
-			}
-			fw.close();
-			System.out.println("Full DB filled!");
-		} catch (IOException e) {
-			System.out.println("Error while writing on db");
-		}
-		return inputs;
-	}
-	
-	private static void train(String fullFolderName, String appsFolder) {
-		List<String[]> inputs;
-		
-		inputs = fill(fullFolderName, appsFolder);
-		
-		System.out.println("Import model...");
-		
-		MultiLayerNetwork model = null;
-		try {
-			model = MultiLayerNetwork.load(new File("model.dl4j"), true);
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("MultiLayerNetwork class not found");
-			return;
-		}
-		
-		// Esencialmente crear un dataset como en NetworkTraining
-		
-		INDArray input = Nd4j.create(new int[]{ inputs.size(), N_INPUTS });
-		INDArray output = Nd4j.create(new int[]{ inputs.size(), 320 });
-		for (int i = 0; i < inputs.size(); i++) {
-			
-			input.putRow(0, Nd4j.createFromArray(new float[] {
-				 									Integer.parseInt(inputs.get(i)[1].substring(1)), 
-				 									Integer.parseInt(inputs.get(i)[2].substring(1)), 
-				 									Integer.parseInt(inputs.get(i)[3].substring(1)),
-//				 									Integer.parseInt(inputs.get(i)[4]),
-				 									Integer.parseInt(inputs.get(i)[5]),
-//				 									Integer.parseInt(inputs.get(i)[6]),
-//				 									Float.parseFloat(inputs.get(i)[7]),
-				 									Integer.parseInt(inputs.get(i)[8]),
-				 									Integer.parseInt(inputs.get(i)[9])
-				 									}));
-			int[] label = new int[320];
-			// indexOut = 64*(algoritmo - 1) + optimizaciones
-			int indexOut = 64*(Integer.parseInt(inputs.get(i)[10].substring(1))-1)+Integer.parseInt(inputs.get(i)[11],2);
-			label[indexOut] = 1;
-			output.putRow(0, Nd4j.createFromArray(label));
-		}
-		DataSet dataSet = new DataSet( input, output );
-		
-		List<DataSet> listDataSet = dataSet.asList();
-		DataSetIterator dsi = new ListDataSetIterator<DataSet>( listDataSet, 1 );
-		
-		int nEpochs = 5;
-		model.fit(dsi, nEpochs);
-		
-		return;
-	}
-	
-	private static String predict(String fileName, String nMutants, String nTests, String nCores, String totalTime, String originalTime, String mutantsTime, String mutationScore, String TSSize, String lines) {
-		
-		System.out.println("Import model....");
-		
-		MultiLayerNetwork model = null;
-		try {
-			model = MultiLayerNetwork.load(new File("model.dl4j"), true);
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("MultiLayerNetwork class not found");
-			return null;
-		}
-		
-		// Obtener e interpretar el output a traves del modelo que ya tenemos
-		INDArray output = model.output(createInput(nMutants,nTests,nCores,totalTime,originalTime,mutantsTime,mutationScore,TSSize,lines));
-		
-		float maxO = 0;
-		int pos = 0;
-		for (int i = 0; i < 320; i++) {
-			if (output.getFloat(i) > maxO) {
-				pos = i;
-				maxO = output.getFloat(i);
-			}
-		}
-		int alg = (pos/64)+1;
-		int optInt = pos%64|64;
-		
-		return "a" + alg + ", " + Integer.toBinaryString(optInt).substring(1);
-	}
-	
-	private static INDArray createInput(String nMutants, String nTests, String nCores, String totalTime, String originalTime, String mutantsTime, String mutationScore, String TSSize, String lines) {
-		INDArray input = Nd4j.create(new int[]{ 1, N_INPUTS })
-				 .putRow(0, Nd4j.createFromArray(new float[] {
-			 									Integer.parseInt(nMutants), 
-			 									Integer.parseInt(nTests), 
-			 									Integer.parseInt(nCores),
-//			 									Integer.parseInt(totalTime),
-			 									Integer.parseInt(originalTime),
-//			 									Integer.parseInt(mutantsTime),
-//			 									Float.parseFloat(mutationScore),
-			 									Integer.parseInt(TSSize),
-			 									Integer.parseInt(lines)
-			 									}));
-		return input;
-	}
+	private static JTextField dataText;
+	private static JTextField appText;
+	private static JTextField mutomvoText;
+	private static JTextField maloneText;
+	private static JTextField coresText;
+
+	private static JButton fill;
+	private static JButton train;
+	private static JButton mutate;
+	private static JButton predict;
+	private static JButton ok;
 	
 	public static void main(String[] args) {
-		if (args.length == 0) {
-			System.out.println("Wrong command input, please select an option:");
-			System.out.println("-t <fullFolderName> <appsFolder> to train the Neural Network");
-			System.out.println("-f <fullFolderName> <appsFolder> to fill the database");
-//			System.out.println("-p <fileName> <nMutants> <nTests> <nCores> <totalTime> <originalTime> <mutantsTime> <mutationScore> <TSSize> <lines> to get the optimal execution mode");
-			System.out.println("-p <fileName> <nMutants> <nTests> <nCores> <originalTime> <TSSize> <lines> to get the optimal execution mode");
-			return;
+		
+		JFrame frame = new JFrame();
+		JPanel panel = new JPanel();
+		
+		frame.setSize(500,500);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(frame);
+		frame.add(panel);
+		frame.setTitle("Naos");
+		
+		panel.setLayout(null);
+		
+		// DATA PATH
+		dataLabel = new JLabel("New data path:");
+		dataLabel.setBounds(50, 50, 125, 30);
+		panel.add(dataLabel);
+		
+		dataText = new JTextField(20);
+		dataText.setBounds(180, 50, 250, 30);
+		panel.add(dataText);
+		
+		// FILL AND TRAIN
+		fill = new JButton("Fill");
+		fill.setBounds(90, 100, 160, 30);
+		fill.addActionListener(new Naos());
+		panel.add(fill);
+		
+		train = new JButton("Train");
+		train.setBounds(250, 100, 160, 30);
+		train.addActionListener(new Naos());
+		panel.add(train);
+		
+		// APP NAME
+		appLabel = new JLabel("App name:");
+		appLabel.setBounds(50, 150, 125, 30);
+		panel.add(appLabel);
+		
+		appText = new JTextField(20);
+		appText.setBounds(200, 150, 250, 30);
+		panel.add(appText);
+		
+		// MUTOMVO PATH
+		mutomvoLabel = new JLabel("Mutomvo path:");
+		mutomvoLabel.setBounds(50, 200, 125, 30);
+		panel.add(mutomvoLabel);
+		
+		mutomvoText = new JTextField(20);
+		mutomvoText.setBounds(200, 200, 250, 30);
+		panel.add(mutomvoText);
+		
+		// MALONE PATH
+		maloneLabel = new JLabel("Malone path:");
+		maloneLabel.setBounds(50, 250, 125, 30);
+		panel.add(maloneLabel);
+		
+		maloneText = new JTextField(20);
+		maloneText.setBounds(200, 250, 250, 30);
+		panel.add(maloneText);
+		
+		// NUMBER OF CORES
+		coresLabel = new JLabel("Number of cores:");
+		coresLabel.setBounds(50, 300, 140, 30);
+		panel.add(coresLabel);
+		
+		coresText = new JTextField(20);
+		coresText.setBounds(200, 300, 250, 30);
+		panel.add(coresText);
+		
+		// MUTATE AND PREDICT
+		mutate = new JButton("Mutate");
+		mutate.setBounds(90, 350, 160, 30);
+		mutate.addActionListener(new Naos());
+		panel.add(mutate);
+		
+		predict = new JButton("Predict");
+		predict.setBounds(250, 350, 160, 30);
+		predict.addActionListener(new Naos());
+		panel.add(predict);
+		
+		// LO DE DESPUES QUE A SABER QUE PONGO		
+		exitFrame.setSize(300,300);
+		exitFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		exitFrame.setLocationRelativeTo(panel);
+		exitFrame.add(exitPanel);
+		
+		exitPanel.setLayout(null);
+		
+		// FILL AND TRAIN
+		ok = new JButton("OK");
+		ok.setBounds(100, 150, 100, 30);
+		ok.addActionListener(new Naos());
+		exitPanel.add(ok);
+		
+		exitLabel = new JLabel("Something went wrong.", SwingConstants.CENTER);
+		exitLabel.setBounds(50, 50, 200, 100);
+		exitPanel.add(exitLabel);
+		
+		frame.setVisible(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		switch (e.getActionCommand()) {
+		case "Fill":
+			if (Trainer.fill(dataText.getText()) != null) {
+				exitLabel.setText("DB filled successfully!");
+			}
+			else {
+				exitLabel.setText("Something went wrong.");
+			}
+			exitFrame.setVisible(true);
+			break;
+		case "Train":
+			exitLabel.setText(Trainer.train(dataText.getText()));
+			exitFrame.setVisible(true);			
+			break;
+		case "Mutate":
+			exitLabel.setText(Predictor.mutate(appText.getText(), mutomvoText.getText(), maloneText.getText()));
+			exitFrame.setVisible(true);		
+			break;
+		case "Predict":
+			exitLabel.setText(Predictor.predict(appText.getText(), mutomvoText.getText(), maloneText.getText(), coresText.getText()));
+			exitFrame.setVisible(true);			
+			break;
+		case "OK":
+			exitFrame.setVisible(false);
+			break;
 		}
-		if (args[0].equals("-t")) {
-			train(args[1], args[2]);
-			System.out.println("ANN trained successfully");
-		}
-		else if (args[0].equals("-p")) {
-			System.out.println(predict(args[1], args[2], args[3], args[4], null, args[5], null, null, args[6], args[7]));
-//			System.out.println("The best algorithm and optimizations for this situation are: " + predict(args[1], args[2], args[3], args[4], null, args[5], null, null, args[6], args[7]));
-		}
-		else if (args[0].equals("-f")) {
-			fill(args[1], args[2]);
-		}
-		else {
-			System.out.println("Wrong command input, please select an option:");
-			System.out.println("-t <fullFolderName> <appsFolder> to train the Neural Network");
-			System.out.println("-f <fullFolderName> <appsFolder> to fill the database");
-//			System.out.println("-p <fileName> <nMutants> <nTests> <nCores> <totalTime> <originalTime> <mutantsTime> <mutationScore> <TSSize> <lines> to get the optimal execution mode");
-			System.out.println("-p <fileName> <nMutants> <nTests> <nCores> <originalTime> <TSSize> <lines> to get the optimal execution mode");
-		}
-		return;
 	}
 }

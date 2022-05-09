@@ -29,7 +29,7 @@ public class NetworkTester {
 		
 		int n = 0;
 		try {
-			Scanner myReader = new Scanner(new File("db.txt"));
+			Scanner myReader = new Scanner(new File("db.csv"));
 			while (myReader.hasNextLine()) {
 				String line = myReader.nextLine();
 				String[] data = line.split(", ");

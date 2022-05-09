@@ -21,6 +21,8 @@ import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
+import org.nd4j.linalg.dataset.api.preprocessor.DataNormalization;
+import org.nd4j.linalg.dataset.api.preprocessor.NormalizerStandardize;
 import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.learning.config.*;
 import org.nd4j.linalg.lossfunctions.LossFunctions.LossFunction;
@@ -28,8 +30,8 @@ import org.nd4j.linalg.lossfunctions.LossFunctions.LossFunction;
 public class NetworkTrainer {
 	
 	private static final String DATASET_ROOT_FOLDER = "/home/martin/Documents/TFG_I/data/";
-	private static final int N_SAMPLES_TRAINING = 87;
-	private static final int N_SAMPLES_TESTING = 87;
+	private static final int N_SAMPLES_TRAINING = 30;
+	private static final int N_SAMPLES_TESTING = 15;
 	private static final int N_INPUTS = 6; // 9 si meto los que faltan
 	private static final int N_OUTCOMES = 320;
 	
@@ -40,7 +42,7 @@ public class NetworkTrainer {
 		
 		int n = 0;
 		try {
-			Scanner myReader = new Scanner(new File(folderPath + "db.txt"));
+			Scanner myReader = new Scanner(new File(folderPath + "db.csv"));
 			while (myReader.hasNextLine()) {
 				String line = myReader.nextLine();
 				String[] data = line.split(", ");
@@ -63,13 +65,12 @@ public class NetworkTrainer {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 	    }
-		// No estoy seguro de si normalizar los datos antes de meterlos, problematico a la hora de entrenar solo con un modelo
-//		int maxMutants = Collections.max(mutants);
-//		int maxTests = Collections.max(tests);
-//		int maxCores = Collections.max(cores);
 		
 		//Join input and output matrixes into a data-set
 		DataSet dataSet = new DataSet( input, output );
+		DataNormalization normalizer = new NormalizerStandardize();
+        normalizer.fit(dataSet);
+        normalizer.transform(dataSet);
 		//Convert the data-set into a list
 		List<DataSet> listDataSet = dataSet.asList();
 		//Shuffle its content randomly
@@ -95,16 +96,15 @@ public class NetworkTrainer {
 			dsi = getDataSetIterator(DATASET_ROOT_FOLDER + "training/", N_SAMPLES_TRAINING);
 		} catch (Exception e) { System.out.println(e); }
 		
-		
 		int rngSeed = 123;
-		int nEpochs = 250; // Number of training epochs
+		int nEpochs = 5000; // Number of training epochs
 
 		System.out.println("Build model....");
 		
 		MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
 		  .seed(rngSeed) //include a random seed for reproducibility
 		  // use stochastic gradient descent as an optimization algorithm
-		  .updater(new Adam(0.0006))
+		  .updater(new Nesterovs(0.1))
 		  .l2(1e-4)
 		  .list()
 		  .layer(new DenseLayer.Builder() //create the first, input layer with Xavier initialization
@@ -126,7 +126,7 @@ public class NetworkTrainer {
 		model.init();
 		
 		//print the score with every 25 iterations
-		model.setListeners(new ScoreIterationListener(25));
+		model.setListeners(new ScoreIterationListener(250));
 		System.out.println("Train model....");
 		model.fit(dsi, nEpochs);
 		

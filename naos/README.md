@@ -1,4 +1,30 @@
-## Neural Network Algorithm and Optimisation Selector
+## Neural Network Algorithm and Optimization Selector
+
+### GUI
+
+El diseño será básicamente una ventana con 4 pestañas para mutate, fill, train y predict. Dentro de cada pestaña habrá un formulario normal para meter los datos que haga falta y fuera.
+ -  Fill: se mantendrá igual a nivel de funcionamiento (esta es posible que luego se elimine, ya que llenar la DB sin entrenar la ANN no tiene mucho sentido)
+    - new data path
+ -  Train: se mantendrá igual el funcionamiento
+    - new data path
+ -  Mutate: se mantiene igual (eliminable también por fusión con predict)
+    - app name
+    - mutomvo path
+    - malone path
+ -  Predict: predict es posible que se junte con mutate para hacer todo todo en la misma ejecución, por lo que los datos introducidos serían los mismos que para mutate
+    - Los parámetros que ahora se le están pasando a predict pueden calcularse sin problema solo con el nombre de la app, que además ahorra muchos controles de errores y facilita todo
+    - Para sacar el tiempo hay que hacer una ejecución en Malone, esto es lo más chungo en verdad
+ 	
+Hay que sacar
+ - mutants -> mutate
+ - tests -> mutate
+ - cores -> dejar esta a elegir
+ - original time -> ejecución Malone
+ - tsSize -> Trainer
+ - lines -> Trainer
+
+Creo que no se debería dar ni el path de la DB ni el del modelo ya que al usuario no le incumbe dónde esté todo, se pueden poner como variables globales
+
 
 ### Esquema del proyecto
  - FileParser
