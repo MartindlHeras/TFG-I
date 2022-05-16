@@ -1,0 +1,56 @@
+rm eggDrop.zip
+mv eggDrop.c longestPalindrome.c
+mv tests_eggDrop.txt tests_longestPalindrome.txt
+gcc -Wall -O3 longestPalindrome.c -o longestPalindrome
+./longestPalindrome talented
+./longestPalindrome earthflax
+./longestPalindrome Koran
+./longestPalindrome wisecrack
+./longestPalindrome exclusive
+./longestPalindrome possible
+./longestPalindrome 1234567
+./longestPalindrome v+çariety
+./longestPalindrome reptile
+./longestPalindrome want
+./longestPalindrome writer
+./longestPalindrome fine
+./longestPalindrome bait
+./longestPalindrome s
+./longestPalindrome turn
+./longestPalindrome promotion
+./longestPalindrome disappoint
+./longestPalindrome nail
+./longestPalindrome debut
+./longestPalindrome open123243546
+./longestPalindrome kit
+./longestPalindrome output
+./longestPalindrome trustee
+./longestPalindrome memory
+./longestPalindrome absorption
+./longestPalindrome gossip
+./longestPalindrome abortion
+./longestPalindrome stain
+./longestPalindrome posture
+./longestPalindrome vacuum
+./longestPalindrome flat
+./longestPalindrome coffin
+./longestPalindrome photograph
+./longestPalindrome zone
+./longestPalindrome belly
+./longestPalindrome regret
+./longestPalindrome convict
+./longestPalindrome clash
+./longestPalindrome spine
+./longestPalindrome dismissal
+./longestPalindrome student
+./longestPalindrome replacement
+./longestPalindrome nose
+./longestPalindrome reluctance
+./longestPalindrome shell
+./longestPalindrome immune
+./longestPalindrome withdrawal
+./longestPalindrome stretch
+./longestPalindrome difficulty
+./longestPalindrome if
+rm longestPalindrome
+zip -r longestPalindrome.zip longestPalindrome.c
