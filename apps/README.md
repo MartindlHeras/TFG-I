@@ -25,11 +25,16 @@
 | [anagram](https://github.com/MartindlHeras/TFG_I/edit/main/apps/anagram) | 36 | 59 | comprueba si dos cadenas son anagramas entre sí |
 | [transpose](https://github.com/MartindlHeras/TFG_I/edit/main/apps/transpose) | 39 | 148 | traspone la matriz pasada |
 | [insertSort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/insertSort) | 40 | 107 | implementación de insert sort |
+| [linearSearch](https://github.com/MartindlHeras/TFG_I/edit/main/apps/linearSearch) | 40 | 78 | implementación de linear search |
 | [bubbleSort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/bubbleSort) | 41 | 112 | implementación de bubble sort |
 | [selectSort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/selectSort) | 45 | 91 | implementación de select sort |
+| [binarySearch](https://github.com/MartindlHeras/TFG_I/edit/main/apps/binarySearch) | 54 | 126 | implementación de binary search |
 | [quickSort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/quickSort) | 55 | 126 | implementación de quick sort |
+| [interpolationSearch](https://github.com/MartindlHeras/TFG_I/edit/main/apps/interpolationSearch) | 59 | 180 | implementación de interpolation search |
 | [genPassword](https://github.com/MartindlHeras/TFG_I/edit/main/apps/genPassword) | 63 | 48 | genera una contraseña aleatoria |
 | [squareMatrix](https://github.com/MartindlHeras/TFG_I/edit/main/apps/squareMatrix) | 71 | 181 | eleva al cuadrado la matriz pasada |
+| [exponentialSearch](https://github.com/MartindlHeras/TFG_I/edit/main/apps/exponentialSearch) | 80 | 168 | implementación de exponential search |
+| [fibonacciSearch](https://github.com/MartindlHeras/TFG_I/edit/main/apps/fibonacciSearch) | 86 | 179 | implementación de fibonacci search |
 | [mergeSort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/mergeSort) | 130 | 218 | algoritmo mergesort |
 | [beaufort](https://github.com/MartindlHeras/TFG_I/edit/main/apps/beaufort) | 445 | 481 | cifrado beaufort |
 | [http](https://github.com/MartindlHeras/TFG_I/edit/main/apps/http) | 708 | | envía una petición HTTP |

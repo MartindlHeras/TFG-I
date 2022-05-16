@@ -16,18 +16,8 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 ---
 
 ### ToDo
- - [x] Mutate.java: zip + no generar mutantes si existen
- - [x] Eliminar duplicados de Autotest y Naos
- - [x] Cambiar db de txt a csv
- - [x] Modificar fill y train y meterlos en FileParser.java
- - [x] FileParser & Mutate -> Trainer & Predictor
- - [x] GUI de mutate + naos (predict + fill + train)
- - [x] Meter GUI en Naos.java
- - [x] Modificar predict y meterlo en Predictor.java
- - [x] Separar mejor training y testing
- - [x] Posible ventana en la GUI para poner el número de cores?
  - [ ] Tweak hyperparameters (learning rate and training epochs) 26/320* (26/256) me tienen que aparecer 294 excluidas
- - [ ] Mirar CCAN + algoritmos de búsqueda
+ - [x] Mirar CCAN + algoritmos de búsqueda
 
 ---
 

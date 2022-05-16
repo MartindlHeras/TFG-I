@@ -1,13 +1,13 @@
 package naos.workbench;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+//import org.deeplearning4j.api.storage.StatsStorage;
 import org.deeplearning4j.datasets.iterator.impl.ListDataSetIterator;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
@@ -16,6 +16,9 @@ import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
+//import org.deeplearning4j.ui.api.UIServer;
+//import org.deeplearning4j.ui.stats.StatsListener;
+//import org.deeplearning4j.ui.storage.InMemoryStatsStorage;
 import org.nd4j.evaluation.classification.Evaluation;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
@@ -104,11 +107,23 @@ public class NetworkTrainer {
 		MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
 		  .seed(rngSeed) //include a random seed for reproducibility
 		  // use stochastic gradient descent as an optimization algorithm
-		  .updater(new Nesterovs(0.1))
+		  .updater(new Adam(0.001))
 		  .l2(1e-4)
 		  .list()
 		  .layer(new DenseLayer.Builder() //create the first, input layer with Xavier initialization
 		    .nIn(N_INPUTS)
+		    .nOut(150)
+		    .activation(Activation.RELU)
+		    .weightInit(WeightInit.XAVIER)
+		    .build())
+		  .layer(new DenseLayer.Builder() //create the first, input layer with Xavier initialization
+		    .nIn(150)
+		    .nOut(325)
+		    .activation(Activation.RELU)
+		    .weightInit(WeightInit.XAVIER)
+		    .build())
+		  .layer(new DenseLayer.Builder() //create the first, input layer with Xavier initialization
+		    .nIn(325)
 		    .nOut(325)
 		    .activation(Activation.RELU)
 		    .weightInit(WeightInit.XAVIER)
@@ -125,6 +140,18 @@ public class NetworkTrainer {
 		
 		model.init();
 		
+		//Initialize the user interface backend
+//	    UIServer uiServer = UIServer.getInstance();
+//
+//	    //Configure where the network information (gradients, score vs. time etc) is to be stored. Here: store in memory.
+//	    StatsStorage statsStorage = new InMemoryStatsStorage();         //Alternative: new FileStatsStorage(File), for saving and loading later
+//	    
+//	    //Attach the StatsStorage instance to the UI: this allows the contents of the StatsStorage to be visualized
+//	    uiServer.attach(statsStorage);
+//	    
+//	    //Then add the StatsListener to collect this information from the network, as it trains
+//	    model.setListeners(new StatsListener(statsStorage));
+		
 		//print the score with every 25 iterations
 		model.setListeners(new ScoreIterationListener(250));
 		System.out.println("Train model....");
@@ -137,15 +164,6 @@ public class NetworkTrainer {
 		System.out.println("Evaluate model....");
 		Evaluation eval = model.evaluate(testDsi);
 		System.out.println(eval.stats());
-		try {
-			FileWriter myWriter = new FileWriter("/home/martin/Documents/TFG_I/out.txt");
-			myWriter.write(eval.stats(false,true));
-			myWriter.close();
-			System.out.println("Successfully wrote to the file.");
-		} catch (IOException e) {
-			System.out.println("An error occurred.");
-			e.printStackTrace();
-		}
 
 		long t1 = System.currentTimeMillis();
 		double t = (double)(t1 - t0) / 1000.0;

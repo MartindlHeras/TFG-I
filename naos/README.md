@@ -1,88 +1,73 @@
 ## Neural Network Algorithm and Optimization Selector
 
-### GUI
-
-El diseño será básicamente una ventana con 4 pestañas para mutate, fill, train y predict. Dentro de cada pestaña habrá un formulario normal para meter los datos que haga falta y fuera.
- -  Fill: se mantendrá igual a nivel de funcionamiento (esta es posible que luego se elimine, ya que llenar la DB sin entrenar la ANN no tiene mucho sentido)
-    - new data path
- -  Train: se mantendrá igual el funcionamiento
-    - new data path
- -  Mutate: se mantiene igual (eliminable también por fusión con predict)
-    - app name
-    - mutomvo path
-    - malone path
- -  Predict: predict es posible que se junte con mutate para hacer todo todo en la misma ejecución, por lo que los datos introducidos serían los mismos que para mutate
-    - Los parámetros que ahora se le están pasando a predict pueden calcularse sin problema solo con el nombre de la app, que además ahorra muchos controles de errores y facilita todo
-    - Para sacar el tiempo hay que hacer una ejecución en Malone, esto es lo más chungo en verdad
- 	
-Hay que sacar
- - mutants -> mutate
- - tests -> mutate
- - cores -> dejar esta a elegir
- - original time -> ejecución Malone
- - tsSize -> Trainer
- - lines -> Trainer
-
-Creo que no se debería dar ni el path de la DB ni el del modelo ya que al usuario no le incumbe dónde esté todo, se pueden poner como variables globales
+### Stuff
+ - >1 hidden layer, have same no. of hidden units in every layer (usually the more the better).
+ - High bias (underfit)
+   - Decreasing lambda (regularization parameter)
+   - Adding polynomial features
+   - Getting additional features
+   - Small network prone to this
+ - Logistic regression
 
 
 ### Esquema del proyecto
- - FileParser
-    - main (provisional):
-        1. Crea y llama a fp
-        2. Llama a getInputs
-        3. Escribe por pantalla
+ - Trainer
     - getInputs:
-        1. Saca parámetros comunes del nombre del fichero
-        2. Recorre Results entrando en las carpetas que tengan los mismos parámetros comunes
-        3. Guarda el menor tiempo y algoritmo correspondiente (en un futuro optimizaciones)
-        4. Devuelve parámetros comunes + algoritmo (+ optimizaciones)
- - NAOS
-    - entrenar:
-        1. Hace lo mismo que el main de FileParser
-        2. Pasa los parámetros a la ANN para entrenarla en ese ejemplo
-    - predecir:
-        - Repurpose test/ANN
-        1. Llamar a la red neuronal con los parámetros de entrada
-        2. Devuelve algoritmo (+ optimizaciones)
-    - main:
-        1. Input: fichero .c + mutantes + tests? (sacar #lineas?)
-        2. Opción -t: entrenar
-        3. Opción -p: predecir
-
-#### Learn
- - Training epochs
- - Hidden layers
-    - Number
-    - Size
- - Activation function (RELU/SOFTMAX)
- - Loss function (negative log likelihood)
- - Weight initialization (Xavier)
- - Batch sizes
+      1. Saca parámetros comunes del nombre del fichero
+      2. Recorre Results entrando en las carpetas que tengan los mismos parámetros comunes
+      3. Guarda el menor tiempo y algoritmo correspondiente (en un futuro optimizaciones)
+      4. Devuelve parámetros comunes + algoritmo (+ optimizaciones)
+    - getFullInputs:
+      1. Saca los parámetros de todos los ficheros
+    - fill:
+      1. Llama a las dos funciones de getInputs
+      2. Escribe los datos en las bases de datos
+    - train:
+      1. Llama a fill
+      2. Crea un objeto DB que utiliza para hacer fit otra vez con la red neuronal
+ - Predict
+    - mutate:
+      1. Manda los ficheros a Mutomvo (.c y tests) creando la carpeta si hace falta
+      2. Ejecuta mutomvo para generar los mutantes del programa
+      3. Comprime los mutantes y los manda a la carpeta de la app
+      4. Genera los autotests
+    - predict:
+      1. Obtiene los inputs mutants, tests, tsSize y lines
+      2. Comprueba si hay valor de cores, si no saca el valor del ordenador
+      3. Llama a autotest para preparar una ejecución de Malone de solo el programa sin mutar
+      4. Realiza la ejecución en Malone y obtiene el valor del tiempo de ejecución
+      5. Crea un objeto input con los datos que se pasan por la red
+      6. El proceso se realiza dos veces para las optimizaciones 000000 y 100000 y el algoritmo 4
+ - Autotest
+    - generate:
+      1. Genera autotests de todos los posibles modos de ejecución
+      2. Genera un fichero bash para ejecutar los autotests
+    - generateSingle:
+      1. Igual que generate pero modificando para que solo ejecute el programa original
+ - Naos
+    - Interfaz gráfica del proyecto, llama a las funciones:
+      - fill
+      - train
+      - mutate
+      - predict
 
 #### Inputs (6)
- - Nombre del programa (no cuenta)
- - #mutantes
- - #tests
- - #cores
- - #algoritmo
- - #optimizaciones
- - #lineas del .c (**falta**)
- - #especificaciones del ordenador? (*muy problemático a la hora de entrenar*)
- - max num de cores
- - tiempo total de ejecucion del programa sin mutar
- - *tiempo total (tiempos totales?) (solo para entrenar)*
- - *tiempo de cada mutante? (solo para entrenar)*
- - *tamaño del fichero?*
- - Ver si se pueden meter datos entrenando que luego no se metan prediciendo
+ - Nombre del programa
+ - #Mutantes
+ - #Tests
+ - #Lineas del .c
+ - #Cores
+ - Tiempo total de ejecucion del programa sin mutar
+ - Tamaño del Test Suite
  - [Complejidad ciclomática](https://github.com/ideadapt/metriculator)
- - Tamaño del entorno (test suite + parámetros del test suite por ejemplo imágenes o archivos a comprimir)
+ - *Tiempo total (solo para entrenar)*
+ - *Tiempo de cada mutante? (solo para entrenar)*
+ - *Mutation Score (solo para entrenar)*
 
-Al final los inputs tienen que ser datos que se sepan antes de ejecutar porque el objetivo del proyecto es hacer un predictor, el tiempo de ejecución solo puede servir para determinar qué algoritmo (y optimizaciones) es el mejor, por lo que el tiempo de los mutantes es creo que irrelevante para la ANN
-
-#### Outputs (5-11)
+#### Outputs (320)
  - Algoritmo (1-5)
  - Optimizaciones (0-1 en cada una de las 6 optimizaciones)
+ - Salida: 64*(alg-1)+op
 
 
 #### ANNs
