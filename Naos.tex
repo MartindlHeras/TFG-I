@@ -1,0 +1,147 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{changepage}
+
+\begin{document}
+
+\section{Neural Network Algorithm and Optimization Selector}
+
+\begin{itemize}
+    \item [\textbf{Esquema del proyecto}]
+    \item Trainer
+    \begin{itemize}
+        \item getInputs:
+        \begin {enumerate}
+            \item Saca parámetros comunes del nombre del fichero
+            \item Recorre Results entrando en las carpetas que tengan los mismos parámetros comunes
+            \item Guarda el menor tiempo y algoritmo correspondiente (en un futuro optimizaciones)
+            \item Devuelve parámetros comunes + algoritmo (+ optimizaciones)
+        \end{enumerate}
+        \item getFullInputs:
+        \begin {enumerate}
+            \item Saca los parámetros de todos los ficheros
+        \end{enumerate}
+        \item fill:
+        \begin {enumerate}
+            \item Llama a las dos funciones de getInputs
+            \item Escribe los datos en las bases de datos
+        \end{enumerate}
+        \item train:
+        \begin{enumerate}
+            \item Llama a fill
+            \item Crea un objeto DB que utiliza para hacer fit otra vez con la red neuronal
+        \end{enumerate}
+    \end{itemize}
+    \item Predict
+        \begin{itemize}
+            \item mutate:
+            \begin{enumerate}
+                \item Manda los ficheros a Mutomvo (.c y tests) creando la carpeta si hace falta
+                \item Ejecuta mutomvo para generar los mutantes del programa
+                \item Comprime los mutantes y los manda a la carpeta de la app
+                \item Genera los autotests
+            \end{enumerate}
+            \item predict:
+            \begin{enumerate}
+                \item Obtiene los inputs mutants, tests, tsSize y lines
+                \item Comprueba si hay valor de cores, si no saca el valor del ordenador
+                \item Llama a autotest para preparar una ejecución de Malone de solo el programa sin mutar
+                \item Realiza la ejecución en Malone y obtiene el valor del tiempo de ejecución
+                \item Crea un objeto input con los datos que se pasan por la red
+                \item El proceso se realiza dos veces para las optimizaciones 000000 y 100000 y el algoritmo 4
+            \end{enumerate}
+            \end{itemize}
+        \item Autotest
+            \begin{itemize}
+            \item generate:
+            \begin{enumerate}
+                \item Genera autotests de todos los posibles modos de ejecución
+                \item Genera un fichero bash para ejecutar los autotests
+            \end{enumerate}
+            \item generateSingle:
+            \begin{enumerate}
+                \item Igual que generate pero modificando para que solo ejecute el programa original
+            \end{enumerate}
+            \end{itemize}
+    \item Naos
+        \begin {itemize}
+            \item Interfaz gráfica del proyecto, llama a las funciones:
+            \begin{enumerate}
+                \item fill
+                \item train
+                \item mutate
+                \item predict
+            \end{enumerate}
+        \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+    \item [\textbf{Inputs}]
+    \item Nombre del programa
+    \item \#Mutantes
+    \item \#Tests
+    \item \#Lineas del .c
+    \item \#Cores
+    \item Tiempo total de ejecucion del programa sin mutar
+    \item Tamaño del Test Suite
+\end{itemize}
+
+\begin{itemize}
+    \item Outputs (320)
+    \item Algoritmo (1-5)
+    \item Optimizaciones (0-1 en cada una de las 6 optimizaciones)
+    \item Salida: array de 0s menos en la posición 64*(alg-1)+op a 1
+\end{itemize}
+\begin{adjustwidth}{-2.5cm}{0cm}
+\begin{tabular}{ |c||c|c|c|  }
+ \hline
+ \multicolumn{4}{|c|}{Apps} \\
+ \hline
+ Name & line & mutants & description \\
+ \hline
+ \hline
+  add & 13 & 11 & suma dos números \\ \hline
+ massive & 13 & 48 & realiza el número pasado como argumento elevado a 5 iteraciones \\ \hline
+ factorial & 18 & 30 & calcula el factorial del número pasado \\ \hline
+ gcd & 19 & 64 & calcula el mcd de los números pasados \\ \hline
+ dictionaryOrder & 29 & 70 & ordena las palabras pasadas alfabéticamente \\ \hline
+ primes & 30 & 67 & comprueba si el número pasado es primo \\ \hline
+ countWays & 34 & 46 & maneras de subir n escalones de 1 o 2 a la vez \\ \hline
+ anagram & 36 & 59 & comprueba si dos cadenas son anagramas entre sí \\ \hline
+ transpose & 39 & 148 & traspone la matriz pasada \\ \hline
+ linearSearch & 40 & 78 & implementación de linear search \\ \hline
+ insertSort & 40 & 107 & implementación de insert sort \\ \hline
+ longestPalindrome & 40 & 108 & mayor palíndromo contenido en la palabra \\ \hline
+ bubbleSort & 41 & 112 & implementación de bubble sort \\ \hline
+ cutRod & 42 & 94 & mayor valor obtenible cortando el array \\ \hline
+ selectSort & 45 & 91 & implementación de select sort \\ \hline
+ binarySearch & 54 & 126 & implementación de binary search \\ \hline
+ quickSort & 55 & 126 & implementación de quick sort \\ \hline
+ interpolationSearch & 59 & 180 & implementación de interpolation search \\ \hline
+ eggDrop & 60 & 95 & implementación del egg dropping problem \\ \hline
+ genPassword & 63 & 48 & genera una contraseña aleatoria \\ \hline
+ maxArrSumNeg & 63 & 112 & suma máxima en un array después de K negaciones \\ \hline
+ partitionProblem & 66 & 167 & determina si se puede dividir un array en dos subarrays de igual suma \\ \hline
+ longestIncrease & 70 & 114 & longest subset in order in the array \\ \hline
+ squareMatrix & 71 & 181 & eleva al cuadrado la matriz pasada \\ \hline
+ minProd & 72 & 181 & mínimo producto dentro de un array \\ \hline
+ exponentialSearch & 80 & 168 & implementación de exponential search \\ \hline
+ fibonacciSearch & 86 & 179 & implementación de fibonacci search \\ \hline
+ mergeSort & 130 & 218 & algoritmo mergesort \\ \hline
+ huffmanCodingEff & 240 & 199 & construye un huffman code tree eficiente \\ \hline
+ huffmanCoding & 318 & 314 & construye un huffman code tree \\ \hline
+ beaufort & 445 & 481 & cifrado beaufort \\ \hline
+ http & 708 & & envía una petición HTTP \\ \hline
+ cjson & 1037 & & parsea objetos tipo JSON \\ \hline
+ parg & 2518 & 2508 &  \\ \hline
+ rnnbit-bit & 4053 & & recurrent neural network for arithmetic \\ \hline
+ textgen & 4223 & & text generator \\ \hline
+ mnistcnn-cnn & 4328 & & convolutional neural network for mnist database \\ \hline
+ ae & 4339 & & tied-weight denoising encoder \\ \hline
+ mlp & 4357 & & multi layer perceptron \\ \hline
+ vae & 4379 & & variantional autoencoder \\ \hline
+ bzip2 & 6998 & & comprime un fichero con el algoritmo bzip2 \\ 
+ \hline
+\end{tabular}
+\end{adjustwidth}
+\end{document}
