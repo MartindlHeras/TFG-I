@@ -6,9 +6,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+//import java.util.concurrent.TimeUnit;
 
 //import org.deeplearning4j.api.storage.StatsStorage;
 import org.deeplearning4j.datasets.iterator.impl.ListDataSetIterator;
+//import org.deeplearning4j.earlystopping.EarlyStoppingConfiguration;
+//import org.deeplearning4j.earlystopping.EarlyStoppingResult;
+//import org.deeplearning4j.earlystopping.saver.LocalFileModelSaver;
+//import org.deeplearning4j.earlystopping.scorecalc.DataSetLossCalculator;
+//import org.deeplearning4j.earlystopping.termination.MaxEpochsTerminationCondition;
+//import org.deeplearning4j.earlystopping.termination.MaxTimeIterationTerminationCondition;
+//import org.deeplearning4j.earlystopping.trainer.EarlyStoppingTrainer;
+import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
 import org.deeplearning4j.nn.conf.layers.DenseLayer;
@@ -16,9 +25,6 @@ import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
-//import org.deeplearning4j.ui.api.UIServer;
-//import org.deeplearning4j.ui.stats.StatsListener;
-//import org.deeplearning4j.ui.storage.InMemoryStatsStorage;
 import org.nd4j.evaluation.classification.Evaluation;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
@@ -36,6 +42,7 @@ public class NetworkTrainer {
 	private static final int N_SAMPLES_TRAINING = 30;
 	private static final int N_SAMPLES_TESTING = 15;
 	private static final int N_INPUTS = 6; // 9 si meto los que faltan
+	private static final int N_HIDDEN = 500;
 	private static final int N_OUTCOMES = 320;
 	
 	private static DataSetIterator getDataSetIterator(String folderPath, int nSamples) throws IOException {
@@ -79,7 +86,7 @@ public class NetworkTrainer {
 		//Shuffle its content randomly
 		Collections.shuffle( listDataSet, new Random(System.currentTimeMillis()) );
 		//Set a batch size
-		int batchSize = 21;
+		int batchSize = 15;
 		//Build and return a data-set iterator that the network can use
 		DataSetIterator dsi = new ListDataSetIterator<DataSet>( listDataSet, batchSize );
 		return dsi;
@@ -98,71 +105,92 @@ public class NetworkTrainer {
 		try {
 			dsi = getDataSetIterator(DATASET_ROOT_FOLDER + "training/", N_SAMPLES_TRAINING);
 		} catch (Exception e) { System.out.println(e); }
+		try {
+			testDsi = getDataSetIterator(DATASET_ROOT_FOLDER + "testing/", N_SAMPLES_TESTING);
+		} catch (Exception e) { System.out.println(e); }
 		
 		int rngSeed = 123;
-		int nEpochs = 5000; // Number of training epochs
+		int nEpochs = 100; // Number of training epochs
 
 		System.out.println("Build model....");
 		
 		MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
 		  .seed(rngSeed) //include a random seed for reproducibility
 		  // use stochastic gradient descent as an optimization algorithm
-		  .updater(new Adam(0.001))
-		  .l2(1e-4)
+		  .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
+		  .updater(new Adam(5e-4))
+		  .l1(1e-6)
+		  .l2(1e-6)
 		  .list()
 		  .layer(new DenseLayer.Builder() //create the first, input layer with Xavier initialization
-		    .nIn(N_INPUTS)
-		    .nOut(150)
-		    .activation(Activation.RELU)
-		    .weightInit(WeightInit.XAVIER)
-		    .build())
+				    .nIn(N_INPUTS)
+				    .nOut(N_HIDDEN)
+				    .activation(Activation.RELU)
+				    .weightInit(WeightInit.XAVIER)
+				    .build())
 		  .layer(new DenseLayer.Builder() //create the first, input layer with Xavier initialization
-		    .nIn(150)
-		    .nOut(325)
-		    .activation(Activation.RELU)
-		    .weightInit(WeightInit.XAVIER)
-		    .build())
+				    .nIn(N_HIDDEN)
+				    .nOut(N_HIDDEN)
+				    .activation(Activation.RELU)
+				    .weightInit(WeightInit.XAVIER)
+				    .build())
 		  .layer(new DenseLayer.Builder() //create the first, input layer with Xavier initialization
-		    .nIn(325)
-		    .nOut(325)
-		    .activation(Activation.RELU)
-		    .weightInit(WeightInit.XAVIER)
-		    .build())
+				    .nIn(N_HIDDEN)
+				    .nOut(N_HIDDEN)
+				    .activation(Activation.RELU)
+				    .weightInit(WeightInit.XAVIER)
+				    .build())
+		  .layer(new DenseLayer.Builder() //create the first, input layer with Xavier initialization
+				    .nIn(N_HIDDEN)
+				    .nOut(N_HIDDEN)
+				    .activation(Activation.RELU)
+				    .weightInit(WeightInit.XAVIER)
+				    .build())
 		  .layer(new OutputLayer.Builder(LossFunction.NEGATIVELOGLIKELIHOOD) //create hidden layer
-		    .nIn(325)
-		    .nOut(N_OUTCOMES)
-		    .activation(Activation.SOFTMAX)
-		    .weightInit(WeightInit.XAVIER)
-		    .build())
+				    .nIn(N_HIDDEN)
+				    .nOut(N_OUTCOMES)
+				    .activation(Activation.SOFTMAX)
+				    .weightInit(WeightInit.XAVIER)
+				    .build())
 		  .build();
+		
+//		EarlyStoppingConfiguration<MultiLayerNetwork> esConf = new EarlyStoppingConfiguration.Builder()
+//		        .epochTerminationConditions(new MaxEpochsTerminationCondition(50))
+//		        .iterationTerminationConditions(new MaxTimeIterationTerminationCondition(20, TimeUnit.MINUTES))
+//		        .scoreCalculator(new DataSetLossCalculator(testDsi, true))
+//		        .evaluateEveryNEpochs(1)
+//		        .modelSaver(new LocalFileModelSaver("/home/martin/Documents/TFG_I"))
+//		        .build();
+//
+//		EarlyStoppingTrainer trainer = new EarlyStoppingTrainer(esConf,conf,dsi);
+//
+//		//Conduct early stopping training:
+//		EarlyStoppingResult<MultiLayerNetwork> result = trainer.fit();
+//
+//		//Print out the results:
+//		System.out.println("Termination reason: " + result.getTerminationReason());
+//		System.out.println("Termination details: " + result.getTerminationDetails());
+//		System.out.println("Total epochs: " + result.getTotalEpochs());
+//		System.out.println("Best epoch number: " + result.getBestModelEpoch());
+//		System.out.println("Score at best epoch: " + result.getBestModelScore());
+//
+//		//Get the best model:
+//		MultiLayerNetwork bestModel = result.getBestModel();
 		
 		MultiLayerNetwork model = new MultiLayerNetwork(conf);
 		
 		model.init();
 		
-		//Initialize the user interface backend
-//	    UIServer uiServer = UIServer.getInstance();
-//
-//	    //Configure where the network information (gradients, score vs. time etc) is to be stored. Here: store in memory.
-//	    StatsStorage statsStorage = new InMemoryStatsStorage();         //Alternative: new FileStatsStorage(File), for saving and loading later
-//	    
-//	    //Attach the StatsStorage instance to the UI: this allows the contents of the StatsStorage to be visualized
-//	    uiServer.attach(statsStorage);
-//	    
-//	    //Then add the StatsListener to collect this information from the network, as it trains
-//	    model.setListeners(new StatsListener(statsStorage));
-		
-		//print the score with every 25 iterations
-		model.setListeners(new ScoreIterationListener(250));
+		//print the score with every 250 iterations
+		model.setListeners(new ScoreIterationListener(100));
 		System.out.println("Train model....");
 		model.fit(dsi, nEpochs);
 		
-		try {
-			testDsi = getDataSetIterator(DATASET_ROOT_FOLDER + "testing/", N_SAMPLES_TESTING);
-		} catch (Exception e) { System.out.println(e); }
+		Evaluation eval = model.evaluate(dsi);
+		System.out.println(eval.stats());
 		
 		System.out.println("Evaluate model....");
-		Evaluation eval = model.evaluate(testDsi);
+		eval = model.evaluate(testDsi);
 		System.out.println(eval.stats());
 
 		long t1 = System.currentTimeMillis();

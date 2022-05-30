@@ -30,3 +30,15 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
  - UI para la ANN
  - Cortar salidas para que solo muestre algoritmo u optimizaciones
  - Generar mutantes en mutomvo por línea de comandos
+
+
+Las clases están 0 diferenciadas, se equivoca en cosas que me parece muy muy normal hacerlo mal
+Tengo mis dudas sobre que sea la mejor manera de predecir ya que muchas veces lo que varía el tiempo es mínimo y se podría ejecutar de varias maneras diferentes obteniendo esencialmente el mismo resultado
+
+### SVM
+  - Trabaja mejor en dimensiones altas (dimensión 6 no es alta)
+  - Cuando el número de dimensiones es mayor que el número de samples (de momento tenemos 6 vs 30/45 y va a duplicarse)
+  - Cuando hay un margen claro de separación trabaja mejor (las clases se solapan muy fácilmente eg massive)
+  - In cases where the number of features for each data point exceeds the number of training data samples, the SVM will underperform
+  - One vs One con 320 clases es una animalada (hacer 320+319+...+1 hiperplanos)
+  - One vs All con 320 clases se necesitan más datos y unbalanced (hay que pillar samples de dentro de las clases)

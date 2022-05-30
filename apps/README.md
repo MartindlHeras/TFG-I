@@ -29,6 +29,8 @@
  - exponentialSearch
  - fibonacciSearch
 
+ - permutate
+
 #### Apps Table
 
 | app | lines | mutants | description |
