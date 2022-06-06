@@ -1,4 +1,5 @@
 package naos.workbench;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -36,6 +37,7 @@ public class Trainer {
 		for (final File fileName : dataDirectory.listFiles()) {
 			String[] input = new String[TOTAL_INPUTS];
 			double minTime = Double.MAX_VALUE;
+			double maxMS = 0;
 			String[] parts = fileName.getName().split("_");
 			boolean flag = false;
 			// Asignamos nombre del programa, #mutantes, #tests, #cores, algoritmo inicial y optimizaciones iniciales
@@ -83,7 +85,8 @@ public class Trainer {
 						}
 					}
 					scan.close();
-					if (minTime > totalTime) {
+					if (maxMS < Double.parseDouble(mutationScore.substring(1)) &&  minTime > totalTime) {
+						maxMS = Double.parseDouble(mutationScore.substring(1));
 						minTime = totalTime;
 						input[4] = Integer.toString((int)totalTime);
 						input[5] = originalTime.substring(1);
@@ -259,6 +262,7 @@ public class Trainer {
 	}
 	
 	public static void main(String[] args) {
+		fill(localPath + "/tmp");
 		return;
 	}
 }

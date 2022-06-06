@@ -115,38 +115,37 @@ public class NetworkTrainer {
 		System.out.println("Build model....");
 		
 		MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
-		  .seed(rngSeed) //include a random seed for reproducibility
-		  // use stochastic gradient descent as an optimization algorithm
+		  .seed(rngSeed)
 		  .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
 		  .updater(new Adam(5e-4))
 		  .l1(1e-6)
 		  .l2(1e-6)
 		  .list()
-		  .layer(new DenseLayer.Builder() //create the first, input layer with Xavier initialization
+		  .layer(new DenseLayer.Builder()
 				    .nIn(N_INPUTS)
 				    .nOut(N_HIDDEN)
 				    .activation(Activation.RELU)
 				    .weightInit(WeightInit.XAVIER)
 				    .build())
-		  .layer(new DenseLayer.Builder() //create the first, input layer with Xavier initialization
+		  .layer(new DenseLayer.Builder()
 				    .nIn(N_HIDDEN)
 				    .nOut(N_HIDDEN)
 				    .activation(Activation.RELU)
 				    .weightInit(WeightInit.XAVIER)
 				    .build())
-		  .layer(new DenseLayer.Builder() //create the first, input layer with Xavier initialization
+		  .layer(new DenseLayer.Builder()
 				    .nIn(N_HIDDEN)
 				    .nOut(N_HIDDEN)
 				    .activation(Activation.RELU)
 				    .weightInit(WeightInit.XAVIER)
 				    .build())
-		  .layer(new DenseLayer.Builder() //create the first, input layer with Xavier initialization
+		  .layer(new DenseLayer.Builder()
 				    .nIn(N_HIDDEN)
 				    .nOut(N_HIDDEN)
 				    .activation(Activation.RELU)
 				    .weightInit(WeightInit.XAVIER)
 				    .build())
-		  .layer(new OutputLayer.Builder(LossFunction.NEGATIVELOGLIKELIHOOD) //create hidden layer
+		  .layer(new OutputLayer.Builder(LossFunction.NEGATIVELOGLIKELIHOOD)
 				    .nIn(N_HIDDEN)
 				    .nOut(N_OUTCOMES)
 				    .activation(Activation.SOFTMAX)
