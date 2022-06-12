@@ -16,15 +16,12 @@ Trabajo de Fin de Grado de Ingeniería Informática en la UAM
 ---
 
 ### ToDo
- - [ ] Tweak hyperparameters (learning rate and training epochs) 26/320* (26/256) me tienen que aparecer 294 excluidas
- - [x] Mirar CCAN + algoritmos de búsqueda
+ - [ ] Ver si puedo hacer funcionar la UI
+
+### Commands
+ - cat fullshortdb.csv | shuf >> fullshortdb.csv
 
 ---
-
-### Problemas
- - KANN: básicamente que estás creando modelos que luego van a ser utilizados, necesitamos la base de datos (que en este caso es MNIST por tanto es fácil) y luego el mismo modelo creado para ejecutar las demás cosas por lo que veo chungo el hacer un testFile válido para Malone
- - cjson, libpqueue y avl: los ejemplos que pone los crea a mano dentro del .c por lo que no habría que cambiar básicamente la mitad del código para hacerlo funcionar como queremos
- - bzip2: no produce nada como salida por lo que no sé qué puede pillar malone para evaluar
 
 ### Ideas
  - UI para la ANN
@@ -42,3 +39,11 @@ Tengo mis dudas sobre que sea la mejor manera de predecir ya que muchas veces lo
   - In cases where the number of features for each data point exceeds the number of training data samples, the SVM will underperform
   - One vs One con 320 clases es una animalada (hacer 320+319+...+1 hiperplanos)
   - One vs All con 320 clases se necesitan más datos y unbalanced (hay que pillar samples de dentro de las clases)
+
+ ### Hyperparameters
+ - Hidden layers: 2
+ - Neurons hidden layer: 350
+ - BatchSize: 10
+ - nEpochs: 50
+ - learningRate: 1e-3
+ - lambda: 1e-6

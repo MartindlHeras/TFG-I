@@ -85,3 +85,9 @@
  - [Generador de números aleatorios](https://www.random.org/sequences/?min=1&max=100&col=1&format=html&rnd=new)
  - [Programas greedy algorithms](https://www.geeksforgeeks.org/greedy-algorithms/?ref=shm)
  - [Algorithms](https://www.geeksforgeeks.org/fundamentals-of-algorithms/?ref=shm)
+
+
+### Problemas
+- KANN: básicamente que estás creando modelos que luego van a ser utilizados, necesitamos la base de datos (que en este caso es MNIST por tanto es fácil) y luego el mismo modelo creado para ejecutar las demás cosas por lo que veo chungo el hacer un testFile válido para Malone
+- cjson, libpqueue y avl: los ejemplos que pone los crea a mano dentro del .c por lo que no habría que cambiar básicamente la mitad del código para hacerlo funcionar como queremos
+- bzip2: no produce nada como salida por lo que no sé qué puede pillar malone para evaluar
