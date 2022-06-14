@@ -29,7 +29,7 @@ public class Naos implements ActionListener {
 	private static JTextField coresText;
 
 	private static JButton fill;
-	private static JButton train;
+//	private static JButton train;
 	private static JButton mutate;
 	private static JButton predict;
 	private static JButton ok;
@@ -58,14 +58,14 @@ public class Naos implements ActionListener {
 		
 		// FILL AND TRAIN
 		fill = new JButton("Fill");
-		fill.setBounds(90, 100, 160, 30);
+		fill.setBounds(170, 100, 160, 30);
 		fill.addActionListener(new Naos());
 		panel.add(fill);
 		
-		train = new JButton("Train");
-		train.setBounds(250, 100, 160, 30);
-		train.addActionListener(new Naos());
-		panel.add(train);
+//		train = new JButton("Train");
+//		train.setBounds(250, 100, 160, 30);
+//		train.addActionListener(new Naos());
+//		panel.add(train);
 		
 		// APP NAME
 		appLabel = new JLabel("App name:");

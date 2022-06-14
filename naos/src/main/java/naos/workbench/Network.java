@@ -100,11 +100,14 @@ public class Network {
 		Double pct = 0.0;
 		DataSetIterator dsi = null;
 		DataSetIterator testDsi = null;
+		String trainPath = DATASET_ROOT_FOLDER + (int)(pct*100) + "/augtraining" + (int)(pct*100) + ".csv";
+		String testPath = DATASET_ROOT_FOLDER + (int)(pct*100) + "/augtesting" + (int)(pct*100) + ".csv";
+		
 		try {
-			dsi = getDataSetIterator(DATASET_ROOT_FOLDER + (int)(pct*100) + "/augtraining" + (int)(pct*100) + ".csv", (int) Files.lines(Paths.get(DATASET_ROOT_FOLDER + (int)(pct*100) + "/augtraining" + (int)(pct*100) + ".csv")).count());
+			dsi = getDataSetIterator(trainPath, (int) Files.lines(Paths.get(trainPath)).count());
+			testDsi = getDataSetIterator(testPath, (int) Files.lines(Paths.get(testPath)).count());
 		} catch (Exception e) { System.out.println(e); }
 		try {
-			testDsi = getDataSetIterator(DATASET_ROOT_FOLDER + (int)(pct*100) + "/augtesting" + (int)(pct*100) + ".csv", (int) Files.lines(Paths.get(DATASET_ROOT_FOLDER + (int)(pct*100) + "/augtesting" + (int)(pct*100) + ".csv")).count());
 		} catch (Exception e) { System.out.println(e); }
 		
 		int rngSeed = 123;
@@ -169,7 +172,7 @@ public class Network {
 			System.out.printf("Error saving model");
 		}
 		
-		System.out.println("Accuracy: " + Tester.testNetwork(pct, pct, (int)(pct*100) + "/augtesting" + (int)(pct*100) + ".csv"));
+		System.out.println("Accuracy: " + Tester.testNetwork(pct, pct, testPath));
 		
 		long t1 = System.currentTimeMillis();
 		double t = (double)(t1 - t0) / 1000.0;

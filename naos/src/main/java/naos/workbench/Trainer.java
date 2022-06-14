@@ -90,22 +90,22 @@ public class Trainer {
 						}
 					}
 					scan.close();
-					mutationScore = getMS(new Scanner(f));
-					scan.close();
-					if (mutationScore >= maxMS) {
-						maxMS = mutationScore;
-						if (Double.parseDouble(totalTime) <= minTime) {
-							minTime = Double.parseDouble(totalTime);
-							input[4] = compilationTime;
-							input[5] = originalTime;
-							input[6] = mutantsTime;
-							input[7] = totalTime;
-							input[8] = df.format(Double.parseDouble(input[6])/Double.parseDouble(input[1].substring(1)));
-							input[9] = Double.toString(mutationScore);
-							input[12] = tmp[9];
-							input[13] = tmp[10];
-						}
-					}
+	mutationScore = getMS(new Scanner(f));
+	scan.close();
+	if (mutationScore >= maxMS) {
+		maxMS = mutationScore;
+		if (Double.parseDouble(totalTime) <= minTime) {
+			minTime = Double.parseDouble(totalTime);
+			input[4] = compilationTime;
+			input[5] = originalTime;
+			input[6] = mutantsTime;
+			input[7] = totalTime;
+			input[8] = df.format(Double.parseDouble(input[6])/Double.parseDouble(input[1].substring(1)));
+			input[9] = Double.toString(mutationScore);
+			input[12] = tmp[9];
+			input[13] = tmp[10];
+		}
+	}
 				}
 			}
 			// appsFolder = /home/martin/Documents/TFG_I/apps

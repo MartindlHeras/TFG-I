@@ -20,12 +20,16 @@ import java.util.zip.ZipOutputStream;
 
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.dataset.DataSet;
+import org.nd4j.linalg.dataset.api.preprocessor.DataNormalization;
+import org.nd4j.linalg.dataset.api.preprocessor.NormalizerStandardize;
 import org.nd4j.linalg.factory.Nd4j;
 
 public class Predictor {
 	
 	private static final String localPath = "/home/martin/Documents/TFG_I";
 	private static final int N_INPUTS = 6; // 9 si meto los que faltan
+	private static final int N_OUTCOMES = 320;
 	
 	private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
 		if (fileToZip.isHidden()) {
@@ -155,6 +159,9 @@ public class Predictor {
 		Long lines;
 		int cores = 0;
 		String returnString = "<html>The optimal execution is:<br/>";
+		
+		mutate(app, mutomvo, malone);
+		
 		Path cPath = Paths.get(localPath + "/apps/" + app + "/" + app + ".c");
 		Path tsPath = Paths.get(localPath + "/apps/" + app + "/tests_" + app + ".txt");
 		try {
@@ -210,28 +217,77 @@ public class Predictor {
 		
 		MultiLayerNetwork model = null;
 		try {
-			model = MultiLayerNetwork.load(new File("model.dl4j"), true);
+			model = MultiLayerNetwork.load(new File("model0aug.dl4j"), true);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("MultiLayerNetwork class not found");
 			return "Model not found.";
 		}
+
+		String dbPath = localPath + "/data/fullshortdb.csv";
+		int nSamples = 0;
+		try {
+			nSamples = (int) Files.lines(Paths.get(localPath + "/data/fullshortdb.csv")).count()-1;
+		} catch (IOException e1) {
+			System.out.println("Error: " + e1);
+			return "Database error.";
+		}
+		INDArray input = Nd4j.create(new int[]{ nSamples + 2, N_INPUTS });
+		INDArray output = Nd4j.create(new int[]{ nSamples + 2, N_OUTCOMES });
 		
-		// Obtener e interpretar el output a traves del modelo que ya tenemos
-		INDArray output = model.output(Nd4j.create(new int[]{ 1, N_INPUTS })
-				.putRow(0, Nd4j.createFromArray(new float[] {
-						mutants,
-						tests,
-						cores,
-						Long.parseLong(originalTime),
-						tsSize,
-						lines
-						})));
+		int n = 2;
+		input.putRow(0, Nd4j.createFromArray( new float[]{
+				mutants,
+				tests,
+				cores,
+				Long.parseLong(originalTime),
+				tsSize,
+				lines
+				} ));
+		output.putRow(0, crearSalida(4, "000000"));
+		
+		input.putRow(1, Nd4j.createFromArray( new float[]{
+				mutants,
+				tests,
+				cores,
+				Long.parseLong(originalTimeParalell),
+				tsSize,
+				lines
+				} ));
+		output.putRow(1, crearSalida(4, "100000"));
+		try {
+			Scanner testingDBReader = new Scanner(new File(dbPath));
+			testingDBReader.nextLine();
+			while (testingDBReader.hasNextLine()) {
+				String line = testingDBReader.nextLine();
+				String[] data = line.split(", ");
+				input.putRow(n, Nd4j.createFromArray( new float[]{
+						Integer.parseInt(data[1].substring(1)), // mutants
+						Integer.parseInt(data[2].substring(1)), // tests
+						Integer.parseInt(data[3].substring(1)), // cores
+						Integer.parseInt(data[5]), // tiempo original
+						Integer.parseInt(data[10]), // lineas .c
+						Integer.parseInt(data[11]), // size TS
+						} ));
+				output.putRow(n, crearSalida(Integer.parseInt(data[12].substring(1)), data[13]));
+				n++;
+			}
+			testingDBReader.close();
+	    } catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+	    }
+		
+		DataSet dataSet = new DataSet( input, output );
+		DataNormalization normalizer = new NormalizerStandardize();
+        normalizer.fit(dataSet);
+        normalizer.transform(dataSet);
 		
 		float maxO = 0;
 		int pos = 0;
+		INDArray predictions = model.output(dataSet.getFeatures());
 		for (int i = 0; i < 320; i++) {
-			if (output.getFloat(i) > maxO) {
+			if (predictions.getRow(0).getFloat(i) > maxO) {
 				pos = i;
 				maxO = output.getFloat(i);
 			}
@@ -241,21 +297,10 @@ public class Predictor {
 		
 		returnString += "single: a" + alg + ", " + Integer.toBinaryString(optInt).substring(1) + "<br/>";
 		
-		// Obtener e interpretar el output a traves del modelo que ya tenemos
-		output = model.output(Nd4j.create(new int[]{ 1, N_INPUTS })
-				.putRow(0, Nd4j.createFromArray(new float[] {
-						mutants,
-						tests,
-						cores,
-						Long.parseLong(originalTimeParalell),
-						tsSize,
-						lines
-						})));
-		
 		maxO = 0;
 		pos = 0;
 		for (int i = 0; i < 320; i++) {
-			if (output.getFloat(i) > maxO) {
+			if (predictions.getRow(1).getFloat(i) > maxO) {
 				pos = i;
 				maxO = output.getFloat(i);
 			}
@@ -266,6 +311,12 @@ public class Predictor {
 		return returnString + "paralell: a" + alg + ", " + Integer.toBinaryString(optInt).substring(1) + "</html>";
 	}
 	
+	private static INDArray crearSalida(Integer alg, String opt) {
+		int[] out = new int[N_OUTCOMES];
+		out[64*(alg-1)+Integer.parseInt(opt,2)] = 1;
+		return Nd4j.createFromArray(out);
+	}
+	
 	private static String getOriginalTime(String dataPath, String fileName) {
 		File dataDirectory = new File(dataPath);
 		String originalTime = null;
@@ -273,7 +324,6 @@ public class Predictor {
 		if (!dataDirectory.exists()) {
 			return null;
 		}
-//		String fileName = "test_autotest_" + app + "_stand_0_m" + mutants + "_t" + tests + "_w" + cores + ".ini";
 		for (final File faux : dataDirectory.listFiles()) {
 			String[] partsAux = faux.getName().split("_");
 			// Asignamos nombre del programa, #mutantes, #tests, #cores, algoritmo inicial y optimizaciones iniciales
